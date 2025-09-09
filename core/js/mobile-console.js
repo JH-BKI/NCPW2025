@@ -86,7 +86,11 @@ class MobileConsole {
         console.log(`  Screen Size: ${isSmallScreen ? 'Small' : isMediumScreen ? 'Medium' : 'Large'}`);
         console.log(`  Device Type: ${isPhone ? 'Phone' : isTablet ? 'Tablet' : isDesktop ? 'Desktop' : 'Unknown'}`);
         console.log(`  Final Mobile: ${isMobileDevice}`);
-        
+        console.log(`  User Agent: ${userAgent}`);
+        console.log(`  Platform: ${platform}`);
+        console.log(`  Screen Ratio: ${screenRatio}`);
+
+
         // Store device type for other components to use
         this.deviceType = isPhone ? 'phone' : isTablet ? 'tablet' : isDesktop ? 'desktop' : 'unknown';
         this.isTablet = isTablet;
@@ -360,7 +364,7 @@ class MobileConsole {
         
         // Limit console entries to prevent memory issues
         const entries = consoleOutput.children;
-        if (entries.length > 100) {
+        if (entries.length > 500) {
             consoleOutput.removeChild(entries[0]);
         }
     }
@@ -419,6 +423,18 @@ class MobileConsole {
         const consoleOutput = document.getElementById('console-output');
         if (!consoleOutput) return;
         
+        console.log(`🔍 Enhanced Device Detection:`);
+        console.log(`  User Agent Mobile: ${isMobileUA}`);
+        console.log(`  User Agent Tablet: ${isTabletUA}`);
+        console.log(`  Has Touch: ${hasTouch}`);
+        console.log(`  Screen: ${screenWidth}x${screenHeight} (${isPortrait ? 'Portrait' : 'Landscape'})`);
+        console.log(`  Screen Size: ${isSmallScreen ? 'Small' : isMediumScreen ? 'Medium' : 'Large'}`);
+        console.log(`  Device Type: ${isPhone ? 'Phone' : isTablet ? 'Tablet' : isDesktop ? 'Desktop' : 'Unknown'}`);
+        console.log(`  Final Mobile: ${isMobileDevice}`);
+        console.log(`  User Agent: ${userAgent}`);
+        console.log(`  Platform: ${platform}`);
+        console.log(`  Screen Ratio: ${screenRatio}`);
+
         // Collect all console entries
         const entries = Array.from(consoleOutput.children);
         const consoleText = entries.map(entry => entry.textContent).join('\n');
