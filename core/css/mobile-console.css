@@ -1,0 +1,153 @@
+/**
+ * Mobile Console Debug System Styles
+ * 
+ * Provides styling for the mobile-friendly console overlay that captures
+ * browser console output and displays it in a dropdown interface.
+ */
+
+#debug { 
+    position: fixed;
+    width: 100%;
+    top: 0;
+    right: 0;
+    z-index: 20000;
+    font-size: 10px;
+    color: var(--text-secondary);
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-content: flex-end;
+    align-items: flex-end;
+}
+
+#debug-toggle {
+    width: 170px;
+    height: 30px;
+    background: var(--bg-danger);
+    border: none;
+    border-bottom: 1px solid var(--border-primary);
+    color: var(--text-secondary);
+    font-size: 10px;
+    padding: 0 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+#debug-toggle:hover {
+    background: var(--bg-tertiary);
+}
+
+#debug-info {
+    font-weight: bold;
+}
+
+#debug-arrow {
+    font-size: 8px;
+    transition: transform 0.2s ease;
+}
+
+#debug-arrow.expanded {
+    transform: rotate(180deg);
+}
+
+#debug-console {
+    position: fixed;
+    top: 25px;
+    left: 0;
+    width: 100%;
+    height: calc(100vh - 25px);
+    background: rgba(0, 0, 0, 0.95);
+    color: #00ff00;
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    overflow-y: auto;
+    z-index: 999;
+    padding: 8px;
+    box-sizing: border-box;
+}
+
+#console-output {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    line-height: 1.4;
+    padding-bottom: 50px; /* Space for the fixed copy button */
+}
+
+.console-log {
+    color: #00ff00;
+}
+
+.console-warn {
+    color: #ffaa00;
+}
+
+.console-error {
+    color: #ff4444;
+}
+
+.console-info {
+    color: #4488ff;
+}
+
+.console-debug {
+    color: #888888;
+    font-style: italic;
+}
+
+.console-trace {
+    color: #ff88ff;
+    font-style: italic;
+}
+
+.console-table {
+    color: #88ff88;
+    font-style: italic;
+}
+
+.console-group {
+    color: #ffaa88;
+    font-weight: bold;
+}
+
+.console-groupEnd {
+    color: #ffaa88;
+    font-weight: bold;
+}
+
+.console-time {
+    color: #88aaff;
+    font-style: italic;
+}
+
+.console-timeEnd {
+    color: #88aaff;
+    font-style: italic;
+}
+
+#copy-console-btn {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 40px;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 1001;
+    transition: background-color 0.2s ease;
+}
+
+#copy-console-btn:hover {
+    background: var(--primary-hover);
+}
+
+#copy-console-btn:active {
+    background: var(--primary-hover);
+    transform: translateY(1px);
+}

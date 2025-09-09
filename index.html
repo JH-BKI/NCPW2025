@@ -1,36 +1,993 @@
-<html lang="en"><head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NCPW 2025 Immersive Activity</title>
+    <title>Learning App</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-    <link href="https://fonts.googleapis.com/css2?family=Caveat+Brush&amp;family=Noto+Sans&amp;display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat+Brush&family=Noto+Sans&display=swap" rel="stylesheet">
      <!-- Core JavaScript Files - Load in dependency order -->
+         <script src="./core/js/topics.js?v=2.25"></script>
+    <script src="./core/js/stateManager.js?v=2.25"></script>
+    <script src="./core/js/performance-helpers.js?v=2.25"></script>
+    <script src="./core/js/progressManager.js?v=2.25"></script>
+    <script src="./core/js/mobile-console.js?v=2.25"></script>
+     
+     <!-- A-Frame Library - Required for 3D scenes and AR functionality -->
+     <script src="https://aframe.io/releases/1.7.0/aframe.min.js"></script>
+     
+     <!-- MindAR Library - Required for AR functionality -->
+     <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+     
+     <!-- Anime.js Library - Required for timeline animations -->
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+ 
+     <script src="./core/js/arSceneManager.js?v=2.26"></script>
+     <script src="./core/js/timeline-controller.js?v=2.25"></script>
      
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="core/css/style.css">
+    <link rel="stylesheet" href="core/css/mobile-console.css">
     
-<link type="text/css" rel="stylesheet" id="dark-mode-custom-link"><link type="text/css" rel="stylesheet" id="dark-mode-general-link"><style lang="en" type="text/css" id="dark-mode-custom-style"></style><style lang="en" type="text/css" id="dark-mode-native-style"></style><style lang="en" type="text/css" id="dark-mode-native-sheet"></style><link type="text/css" rel="stylesheet" id="dark-mode-custom-link"><link type="text/css" rel="stylesheet" id="dark-mode-general-link"><style lang="en" type="text/css" id="dark-mode-custom-style"></style><style lang="en" type="text/css" id="dark-mode-native-style"></style><style lang="en" type="text/css" id="dark-mode-native-sheet"></style><link type="text/css" rel="stylesheet" id="dark-mode-custom-link"><link type="text/css" rel="stylesheet" id="dark-mode-general-link"><style lang="en" type="text/css" id="dark-mode-custom-style"></style><style lang="en" type="text/css" id="dark-mode-native-style"></style><style lang="en" type="text/css" id="dark-mode-native-sheet"></style></head>
-<body style="
-    background-position: 0;
-    background-image: url(background.png),linear-gradient(180deg,rgba(1, 52, 19, 1) 0%, rgba(5, 129, 47, 1) 50%, rgba(147, 199, 39, 1) 100%);
-">
+    <!-- 
+     * AR Learning App - Phase 1: UI Structure Complete
+     * 
+     * Dependencies:
+     * - CSS: core/css/style.css (all UI section styles)
+     * - JS: core/js/topics.js (topic data and content)
+     * - JS: core/js/stateManager.js (application state management)
+     * 
+     * Note: arSceneManager.js is disabled during Phase 1 UI development
+     * Will be re-enabled for Phase 3: MindAR Integration
+     -->
+</head>
+<body>
 
-    
-    <!-- Menu Section -->
-    <div id="menu-section" class="section" style="/* max-width: 600px; *//* margin: 0 auto; *//* max-height: 600px; */display: block;left: auto;position: relative;top: auto;">
-        <div class="hero" style="
-    /* display: none; */
-            background-image: url(s01-imagetarget.png), linear-gradient(180deg, rgba(1, 52, 19, 1) 0, rgba(5, 129, 47, 1) 42%, rgba(147, 199, 39, 1) 100%);
-    background-size: 100%;
-"></div>
-        <div class="menu-content card">
-            <h1>NCPW 2025 Immersive Activity Coming soon!</h1>
 
-            <p>This is a placeholder page for the final production site for the immersive activity.</p>
-            
+
+    <div id="debug">
+        <button id="debug-toggle" onclick="toggleDebugConsole()">
+            <span id="debug-info">v2.26 - loading</span>
+            <span id="debug-arrow">▼</span>            
+        </button>
+        <div id="debug-console" class="hidden">
+            <div id="console-output"></div>
+            <button id="copy-console-btn" onclick="copyConsoleToClipboard()">📋 Copy Console</button>
         </div>
     </div>
-  
 
-</body></html>
+    <!-- Loading Section -->
+    <div id="loading-section" class="section">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <h1>Loading...</h1>
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div id="loading-progress" class="progress-fill"></div>
+                </div>
+                <div class="progress-text">Initializing... <span id="loading-percentage">0%</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Splash Section -->
+    <div id="splash-section" class="hidden section">
+        <div class="splash-content">
+            <div class="splash-actions">
+                <img src="./assets/misc/call-to-action.png" alt="National Child Protection Week 2025" class="splash-logo">
+                <h1>Welcome!</h1>
+                <h2>#NCPW2025</h2>
+                <h4>National Child Protection Week 2025</h2>
+                <h4>Immersive Augmented Reality Experience</h4>
+            </div>
+                <h2 style="text-align: center;">⬇️</h2>
+        <div class="splash-actions">
+            <h4>How to use the app: (TBC)</h4>
+            <p>Jesse note: add images here for onboarding</p>
+            <ul>
+                <li>Scan the posters to unlock the immersive AR experience</li>
+                <li>Watch the videos to learn about the topics</li>
+                <li>Answer the questions to test your knowledge</li>
+                <li>Find all 4 and unlock an exclusive reward!</li>
+            </ul>
+        </div>
+            <h2 style="text-align: center;">⬇️</h2>
+        <div class="splash-actions">
+            <h4 style="text-align: center;">Ready?</h4>
+                <p style="text-align: center;">Let's go!</p>
+                    <button id="start-app-button" class="btn btn-primary">
+                     🚀 Get Started 
+                </button>
+                <BR>
+                    <BR>
+                        <BR>
+                        </div>
+        </div>
+    </div>
+
+    <!-- Onboarding Section -->
+    <div id="onboarding-section" class="hidden section">
+    </div>
+
+    <!-- Campus Selection -->
+    <div id="campus-section" class="hidden section">
+        <div class="campus-content">
+            <h1>Choose Your Campus</h1>
+            <p>Where are you today?</p>            
+            <div class="campus-grid">
+                <div class="campus-card" onclick="selectCampus('broadmeadows')">
+                    <img src="./assets/misc/kangan.png" alt="Broadmeadows Campus" class="campus-logo">
+                    <div class="campus-name">Broadmeadows</div>
+                </div>
+                <div class="campus-card" onclick="selectCampus('bendigo')">
+                    <img src="./assets/misc/bendigo.png" alt="Bendigo Campus" class="campus-logo">
+                    <div class="campus-name">Bendigo</div>
+                </div>
+            </div>
+    </div>
+    </div>
+
+    <!-- Topic Selection -->
+    <div id="topics" class="card hidden section">
+        <h1>Choose Your Learning Topic</h1>
+        <p>Select a topic to begin your interactive learning experience</p>
+        
+        <div class="topic-grid" id="topic-grid-container">
+            <!-- Topic cards will be dynamically populated from topics.js -->
+        </div>
+    </div>
+    
+    <!-- Menu Section -->
+    <div id="menu-section" class="hidden section">
+        <div class="hero"></div>
+        <div class="menu-content card">
+            <h1>Welcome!</h1>
+            <p>We hope you enjoy this Immersive Experience for National Child Protection Week 2025.</p>
+            <p>There are <span>4 posters to find</span>, each representing a different #NCPW2025 topic. </p>
+            <div class="completion-status">
+                <div class="light-card">
+                    <!-- <span class="status-icon">📊</span> -->
+                    <p>Your progress:</p>
+                    <div class="completion-count" id="progress-counter">0 of 4 completed</div>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar" id="progress-bar"></div>
+                    </div>
+                    <!-- Celebration button - only shown when all topics completed -->
+                    <div id="celebration-button-container" class="celebration-button-container" style="display: none;">
+                        <button id="celebration-button" class="celebration-button" onclick="triggerCelebration()">
+                            <span class="celebration-icon">🏆</span>
+                            <span class="celebration-text">Your Reward!</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="completed-topics" id="completed-topics-section" style="display: none;">
+                    <h3>Completed Topics</h3>
+                    <ul id="completed-topics-list" class="completed-topics-list">
+                        <!-- Completed topics will be populated here -->
+                    </ul>
+                </div>
+            </div>
+                        
+            <p>Find and scan each of the 4 posters to unlock a different immersive experience.</p>
+            <button class="btn btn-primary" onclick="startARScanning()">
+                🚀 Let's Go!
+            </button>
+            
+         
+        </div>
+    </div>
+    
+    <!-- Celebration Section -->
+    <div id="celebration-section" class="hidden section">
+        <div class="celebration-content">
+            <div class="celebration-animation">
+                <div class="confetti-container" id="confetti-container"></div>
+                <div class="celebration-icon">🏆</div>
+            </div>
+            
+            <div class="celebration-text">
+                <h1 class="celebration-title">Congratulations!</h1>
+                <h2 class="celebration-subtitle">You've completed all 4 topics!</h2>
+                <p class="celebration-message">
+                    You've successfully completed the National Child Protection Week 2025 
+                    Immersive Experience. Thank you for your dedication to learning about 
+                    these important topics.
+                </p>
+                <p class="celebration-message">
+                    As a reward for your efforts, you can now access an exclusive camera filter.
+                </p>
+            </div>
+            
+            <!-- <div class="celebration-stats hidden">
+                <div class="stat-card">
+                    <div class="stat-number">4</div>
+                    <div class="stat-label">Topics Completed</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">Progress</div>
+                </div>
+            </div> -->
+            
+            <div class="celebration-actions">
+                <button class="btn btn-primary celebration-btn" onclick="shareAchievement()">
+                    Exclusive Face Filter!
+                </button>
+                <button class="btn btn-secondary" onclick="goBackToMenu()">
+                    Go Back
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Scanning Section -->
+    <div id="scanning-section" class="hidden section">
+
+        <div class="app-tip" id="app-tip">
+            <p id="tip-text">💡 <strong>Tip:</strong> Keep your device steady and follow the on-screen instructions</p>
+        </div>
+
+        <div class="scanning-instruction card">                
+            <p>Find a poster and point your camera at it!</p>
+            <span><span class="step-icon">1️⃣</span> Hold your device steady</span>
+            <span><span class="step-icon">2️⃣</span> Point at the characters in the poster</span>                    
+            <span><span class="step-icon">3️⃣</span> Wait for the scan to finish</span>
+            <button class="btn btn-secondary" onclick="goBackToMenu()">Go Back</button>
+        </div>
+    </div>
+                
+        <!-- <div class="error-section hidden">
+            <div class="error-message">
+                <span class="error-icon">⚠️</span>
+                <p>Camera access denied. Please enable camera permissions to continue.</p>
+            </div>
+        </div>
+    </div> -->
+    
+    <!-- AR Ready Section -->
+    <div id="ar-ready-section" class="hidden section">
+        <div class="detection-success card">
+            <!-- <div class="success-icon">✅</div> -->
+            <div class="poster-info">
+                <p id="detected-poster-desc">You found:</p>
+                <h3 id="detected-poster-title">Learning Poster Detected</h3>
+                <button class="btn btn-primary" id="start-ar-button" onclick="countdownTimer(5, startARExperience, this)">
+                    🚀 Start
+                </button>
+                <button class="btn btn-secondary" onclick="goBackToMenu()">Go Back</button>
+            </div>
+        </div>         
+    </div>
+    
+    <!-- Animating Section -->
+    <div id="animating-section" class="card hidden section">
+
+        <div id="scenario">
+            <div class="scenario-ui-prompt">
+              <div class="scenario-ui-prompt-speech left">
+                <span class="scenario-ui-prompt-speech-profile"><img></span>
+                <span class="scenario-ui-prompt-speech-content"><span id="name-content-left">||||</span><span id="text-content-left">----</span></span>
+              </div >
+              <div class="scenario-ui-prompt-speech right">
+                <span class="scenario-ui-prompt-speech-profile"><img></span>
+                <span class="scenario-ui-prompt-speech-content"><span id="name-content-right">||||</span><span id="text-content-right">----</span></span>
+              </div>
+              <div class="scenario-ui-prompt-speech info"></div>
+              <div class="scenario-ui-prompt-button-area">
+                <button class="btn btn-primary" type="button" id="scenario-ui-prompt-button">Continue</button>
+              </div>
+            </div>
+        </div>
+
+
+    </div>
+    
+    <!-- Progress Bar -->
+    <!-- <div id="progress" class="hidden">
+        <div class="back-link" onclick="goHome()">← Back to Topics</div>
+        <div class="progress-bar">
+            <div id="progress-bar" class="progress-fill"></div>
+        </div>
+    </div> -->
+    
+    <!-- <div class="ar-progress-container">
+        <div class="ar-progress-bar">
+            <div id="ar-progress-fill" class="ar-progress-fill"></div>
+        </div>
+        <div class="ar-progress-text">
+            <span id="ar-progress-percentage">0%</span> Complete
+        </div>
+    </div> -->
+
+
+    <!-- Video Section -->
+    <div id="video-section" class="hidden section">
+        <div class="hero"></div>
+        
+        <div class="video-content card">
+
+            <h2 id="video-title">Topic Title</h2>
+            
+            <div class="video-container">
+                <iframe src="" frameborder="0" allowfullscreen></iframe>
+            </div>
+            
+            <div id="content-area">
+                <!-- Content will be loaded here -->
+            </div>
+            
+            <button class="btn btn-primary" onclick="goToQuiz()">Continue</button>
+        </div>
+    </div>
+    
+    <!-- Quiz Section -->
+    <div id="quiz-section" class="hidden section">
+        <div class="hero"></div>
+        <div class="quiz-content card">
+            <h2>Knowledge Check!</h2>
+            
+            <div class="question-box">
+                <h3 id="question">Loading question...</h3>
+                <p id="instructions">Select your answer(s):</p>
+            </div>
+            
+            <div id="answers">
+                <!-- Answers will be loaded here -->
+            </div>                
+
+            <div id="results" class="hidden">
+                <div class="light-card">
+                    <div id="score" class="score-box">0 correct of 0.</div>
+                    <div id="feedback">Feedback will appear here</div>
+                </div>
+                <button class="btn btn-primary" onclick="goToSummary()">Continue</button>
+            </div>
+
+            <div id="answers-buttons">
+                <button id="submit-btn" class="btn btn-primary" onclick="checkAnswers()">Submit</button>
+                <!-- <button class="btn btn-secondary" onclick="goBackToVideo()">Go Back</button> -->
+            </div>            
+        </div>
+    </div>
+    
+    <!-- Summary Section -->
+    <div id="summary-section" class="hidden section">
+        <div class="hero"></div>
+        <div class="summary-content card">
+            <h2>Great Work!</h2>
+            <div id="summary-content">
+                <!-- Summary will be loaded here -->
+            </div>
+            <div>
+                <p>You have <strong><span id="progress-left">3</span></strong> more posters to find.</p>
+                <p id="progress-left-message">Find all of the remaining posters to unlock a special reward.</p>
+                <BR><BR>
+                <button class="btn btn-primary" onclick="goHome()">Continue</button>
+                <!-- <button class="btn btn-secondary" onclick="restartTopic()">Go Back</button> -->
+            </div>
+        </div>
+    </div>
+
+    <!-- facefilter Section -->
+    <div id="filter-section" class="hidden section">
+        <div class="hero"></div>
+        <div class="filter-content card">
+            <h2>Filter TBC</h2>
+            <div id="filter-content">
+                Instructions - TBC
+            </div>
+            <div>
+                <button class="btn btn-primary" onclick="goHome()">Continue</button>
+                <button class="btn btn-secondary" onclick="restartTopic()">Go Back</button>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- AR Scene Container -->
+    <div id="ar-scene-container" class="ar-scene-container hidden"></div>
+
+    <!-- AR Not Supported Modal -->
+    <div id="ar-not-supported-message" class="ar-not-supported-message hidden">
+        <div class="message-content">
+            <h3>AR Scanning Not Available</h3>
+            <p>Your device or browser doesn't support AR scanning.</p>
+            <p>Please try on a mobile device with camera access for the full AR experience.</p>
+            <button class="btn" onclick="restartApp()">Go Back</button>
+        </div>
+    </div>
+
+   
+    <!-- Phase 4.5: Real AR Scene Implementation Active -->
+    <script>
+
+
+
+
+
+
+        /*
+         * Main Application Script
+         * 
+         * Dependencies (loaded in order):
+         * 1. topics.js - Topic data and content management
+         * 2. stateManager.js - Application state management
+         * 
+         * This script contains:
+         * - Global variables and state
+         * - UI interaction functions
+         * - State transition logic
+         * - Loading simulations
+         * - Content loading functions
+         */
+        
+        let version = '3.03';
+        let currentTopic = '';
+        let selectedAnswers = [];
+        let currentScore = 0;
+        let selectedCampus = '';
+        
+        // URL parameter capture function - logs all tokens to console
+        function logUrlParameters() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const params = {};
+            
+            // Capture all URL parameters
+            for (const [key, value] of urlParams.entries()) {
+                params[key] = value;
+            }
+            
+            // Log all parameters to console
+            if (Object.keys(params).length > 0) {
+                console.log('🔗 URL Parameters detected:', params);
+                console.log('📋 Full URL:', window.location.href);
+            } else {
+                console.log('🔗 No URL parameters found');
+            }
+            
+            return params;
+        }
+        
+
+        
+        // Loading simulation function
+        function simulateLoading() {
+            let progress = 0;
+            const progressBar = document.getElementById('loading-progress');
+            const progressText = document.getElementById('loading-percentage');
+            const loadingText = document.querySelector('.progress-text');
+            
+            // Check if required elements exist
+            if (!progressBar || !progressText || !loadingText) {
+                console.error('Loading elements not found, skipping simulation');
+                // Fallback: just transition to campus selection
+                setTimeout(() => {
+                    stateManager.changeState('campus_selection');
+                }, 500);
+                return;
+            }
+            
+            const loadingSteps = [
+                { text: 'Initializing...', progress: 20 },
+                { text: 'Loading AR components...', progress: 40 },
+                { text: 'Preparing learning content...', progress: 60 },
+                { text: 'Setting up interactive elements...', progress: 80 },
+                { text: 'Almost ready...', progress: 100 }
+            ];
+            
+            let currentStep = 0;
+            
+            const interval = setInterval(() => {
+                progress += 2;
+                
+                // Check if currentStep is within bounds
+                if (currentStep < loadingSteps.length && progress >= loadingSteps[currentStep].progress) {
+                    if (loadingText) {
+                        loadingText.textContent = loadingSteps[currentStep].text;
+                    }
+                    currentStep++;
+                }
+                
+                // Update progress bar and text with null checks
+                if (progressBar) {
+                    progressBar.style.width = progress + '%';
+                }
+                if (progressText) {
+                    progressText.textContent = progress + '%';
+                }
+                
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        // Use state manager to transition to campus selection
+                        //stateManager.changeState('campus_selection');
+                        stateManager.changeState('splash');
+                    }, 250);
+                }
+            }, 20);
+        }
+        
+        // Populate topic cards dynamically from topics.js
+        function populateTopicCards() {
+            const container = document.getElementById('topic-grid-container');
+            if (!container) return;
+            
+            // Clear existing cards
+            container.innerHTML = '';
+            
+            // Create cards for topics 1-4
+            for (let i = 1; i <= 4; i++) {
+                const topicTitle = window.getTopicTitle ? window.getTopicTitle(i) : `Topic ${i}`;
+                const topicIcon = window.getTopicIcon ? window.getTopicIcon(i) : '📚';
+                
+                const card = document.createElement('div');
+                card.className = 'topic-card';
+                card.onclick = () => startTopic(`topic_${i}`);
+                
+                // Check if icon is an image path or emoji
+                const iconElement = topicIcon.includes('.') ? 
+                    `<img src="${topicIcon}" alt="Topic ${i}" class="topic-icon-img">` : 
+                    `<span class="topic-icon">${topicIcon}</span>`;
+                
+                card.innerHTML = `
+                    ${iconElement}
+                    <div class="topic-title">${topicTitle}</div>
+                    <div class="topic-desc">Interactive learning experience</div>
+                `;
+                
+                container.appendChild(card);
+            }
+        }
+        
+        // Start loading when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Log URL parameters to console
+            logUrlParameters();
+            
+            // Set version in mobile console if it's available
+            if (window.mobileConsole) {
+                window.mobileConsole.setVersion(version);
+                
+                // Log device capabilities for debugging
+                const capabilities = window.mobileConsole.getDeviceCapabilities();
+                console.log('📱 Device Capabilities:', capabilities);
+                
+                // Example: Different behavior based on device type
+                if (capabilities.isPhone) {
+                    console.log('📱 Phone detected - optimizing for mobile AR experience');
+                } else if (capabilities.isTablet) {
+                    console.log('📱 Tablet detected - using tablet-optimized interface');
+                } else if (capabilities.isDesktop) {
+                    console.log('🖥️ Desktop detected - using desktop interface with demo mode');
+                }
+            }
+            
+            // Initialize state manager and start with splash state
+            if (window.StateManager) {
+                window.stateManager = new StateManager();
+                console.log('🎬 State Manager initialized - starting with splash state');
+            } else {
+                console.error('❌ StateManager not found - splash state will not work');
+            }
+            
+            // Example: Set progress expiry (uncomment to enable)
+            window.progressManager.setExpiryDays(30); // Expire in 30 days
+            // window.progressManager.setExpiryDays(7);  // Expire in 7 days
+            // window.progressManager.setExpiryDays(null); // No expiry (default)
+            
+            simulateLoading();
+            
+            // Populate UI elements after a short delay to ensure topics.js is loaded
+            setTimeout(() => {
+                populateTopicCards();
+            }, 100);
+        });
+        
+        // Campus selection function
+        function selectCampus(campus) {
+            selectedCampus = campus;
+            // Use state manager to transition directly to menu
+            // AR scanning will automatically detect/simulate a topic
+            stateManager.changeState('menu');
+        }
+        
+        // Start AR scanning function
+        function startARScanning() {
+            console.log('🎬 App: Starting AR scanning process...');
+            
+            if (window.arSceneManager) {
+                console.log('🚀 App: Initializing AR Scene Manager...');
+                window.arSceneManager.initialize().then(() => {
+                    console.log('✅ App: AR Scene Manager ready - starting scanning');
+                    window.arSceneManager.startScanning();
+                    stateManager.changeState('scanning');
+                }).catch(error => {
+                    console.error('❌ App: Failed to initialize AR Scene Manager:', error);
+                });
+            } else {
+                console.error('❌ App: AR Scene Manager not available');
+            }
+        }
+        
+        // Start AR experience function
+        function startARExperience() {
+            // Use state manager to transition to animating state
+            stateManager.changeState('animating');
+            
+            // Start the AR animation
+            if (window.arSceneManager) {
+                window.arSceneManager.startARExperience();
+            } else {
+                console.error('❌ AR Scene Manager not available');
+            }
+            
+
+        }
+              
+
+        
+        function goBackToMenu() {
+            // Go back to menu state
+            stateManager.changeState('menu');
+        }
+        function goBackToVideo() {
+            // Go back to menu state
+            stateManager.changeState('video');
+        }
+        function startTopic(topic) {
+            currentTopic = topic;
+            selectedAnswers = [];
+            currentScore = 0;
+            
+            // Use state manager to change to menu state
+            stateManager.changeState('menu');
+        }
+        
+        // Function to set current topic (called by mindarManager)
+        function setCurrentTopic(topic) {
+            currentTopic = topic;
+            console.log(`🎯 Current topic set to: ${currentTopic}`);
+        }
+        
+        function loadVideoContent() {
+            // Use topics.js helper functions to get topic information
+            const topicId = currentTopic.replace('topic_', '');
+            console.log('🎬 Loading video content for topic:', currentTopic, 'topicId:', topicId);
+            
+            const topicTitle = window.getTopicTitle ? window.getTopicTitle(topicId) : 'Learning Topic';
+            const topicContent = window.getTopicContent ? window.getTopicContent(topicId) : ['Content will be loaded here.'];
+            const topicVideoUrl = window.getTopicVideoUrl ? window.getTopicVideoUrl(topicId) : null;
+            
+            console.log('🎬 Video content data:', {
+                topicTitle: topicTitle,
+                topicVideoUrl: topicVideoUrl,
+                getTopicVideoUrl: typeof window.getTopicVideoUrl
+            });
+            
+            // Update video title
+            document.getElementById('video-title').textContent = topicTitle;
+            
+            // Update video iframe source - let it fail if no URL
+            const videoIframe = document.querySelector('#video-section iframe');
+            console.log('🎬 Video iframe element:', videoIframe);
+            
+            if (videoIframe) {
+                if (topicVideoUrl) {
+                    console.log('🎬 Setting video iframe src to:', topicVideoUrl);
+                    videoIframe.src = topicVideoUrl;
+                } else {
+                    // No fallback - let the iframe remain empty/broken
+                    console.error(`❌ No video URL found for topic: ${currentTopic}`);
+                    videoIframe.src = '';
+                }
+            } else {
+                console.error('❌ Video iframe element not found');
+            }
+            
+            // Update content area
+            const contentArea = document.getElementById('content-area');
+            contentArea.innerHTML = topicContent;
+        }
+        
+        // Expose loadVideoContent globally for timeline controller
+        window.loadVideoContent = loadVideoContent;
+        
+        // Expose URL parameter function globally
+        window.logUrlParameters = logUrlParameters;
+        
+        function goToQuiz() {
+            stateManager.changeState('quiz');
+            
+            loadQuiz();
+            updateProgress(66);
+        }
+        
+        function loadQuiz() {
+            const topicId = currentTopic.replace('topic_', '');
+            const question = window.getTopicQuestion ? window.getTopicQuestion(topicId) : 'Loading question...';
+            const answers = window.getTopicAnswers ? window.getTopicAnswers(topicId) : [];
+            
+            document.getElementById('question').textContent = question;
+            
+            const answersDiv = document.getElementById('answers');
+            answersDiv.innerHTML = '';
+            
+            answers.forEach((answer, index) => {
+                const div = document.createElement('div');
+                div.className = 'answer';
+                div.textContent = answer.text;
+                div.onclick = () => selectAnswer(index);
+                answersDiv.appendChild(div);
+            });
+        }
+        
+        function selectAnswer(index) {
+            const answerDiv = document.getElementsByClassName('answer')[index];
+            
+            if (selectedAnswers.includes(index)) {
+                selectedAnswers = selectedAnswers.filter(i => i !== index);
+                answerDiv.classList.remove('selected');
+            } else {
+                selectedAnswers.push(index);
+                answerDiv.classList.add('selected');
+            }
+        }
+        
+        function checkAnswers() {
+            const topicId = currentTopic.replace('topic_', '');
+            const answers = window.getTopicAnswers ? window.getTopicAnswers(topicId) : [];
+            const correctAnswers = answers.map((answer, index) => 
+                answer.correct ? index : null).filter(i => i !== null);
+            
+            let correct = 0;
+            let total = correctAnswers.length;
+            
+            // Count correct selections
+            correctAnswers.forEach(correctIndex => {
+                if (selectedAnswers.includes(correctIndex)) {
+                    correct++;
+                }
+            });
+            
+            // Subtract for wrong selections
+            selectedAnswers.forEach(selectedIndex => {
+                if (!correctAnswers.includes(selectedIndex)) {
+                    correct = Math.max(0, correct - 1);
+                }
+            });
+            
+            currentScore = Math.round((correct / total) * 100);
+            currentScoreText = `${correct} of ${total} correct.`;
+            
+            // Show results
+            showQuizResults(correctAnswers);
+        }
+        
+        function showQuizResults(correctAnswers) {
+            const topicId = currentTopic.replace('topic_', '');
+            const answers = window.getTopicAnswers ? window.getTopicAnswers(topicId) : [];
+            const feedback = window.getTopicFeedback ? window.getTopicFeedback(topicId) : { perfect: '', partial: '' };
+            const answerElements = document.getElementsByClassName('answer');
+            
+            // Color code answers
+            for (let i = 0; i < answerElements.length; i++) {
+                const answer = answerElements[i];
+                const wasSelected = selectedAnswers.includes(i);
+                const isCorrect = correctAnswers.includes(i);
+                
+                answer.onclick = null; // Disable clicking
+                answer.classList.remove('selected');
+                
+                if (isCorrect && wasSelected) {
+                    answer.classList.add('correct');
+                } else if (isCorrect && !wasSelected) {
+                    answer.classList.add('missed');
+                } else if (!isCorrect && wasSelected) {
+                    answer.classList.add('incorrect');
+                }
+                else {
+                    answer.classList.add('not-selected');
+                }
+            }
+            
+            // Show score and feedback
+            document.getElementById('score').textContent = `${currentScoreText}`;
+            
+            const feedbackText = currentScore === 100 ? feedback.perfect : feedback.partial;
+            document.getElementById('feedback').textContent = feedbackText;
+            
+            document.getElementById('submit-btn').classList.add('hidden');
+            document.getElementById('results').classList.remove('hidden');
+        }
+        
+        function goToSummary() {
+            stateManager.changeState('summary');
+            
+            loadSummary();
+            updateProgress(100);
+        }
+        
+        function loadSummary() {
+            const topicId = currentTopic.replace('topic_', '');
+            const summary = window.getTopicSummary ? window.getTopicSummary(topicId) : '';
+            const summaryDiv = document.getElementById('summary-content');
+            summaryDiv.innerHTML = summary;
+            
+            
+            // Mark topic as completed when summary is viewed
+            if (window.progressManager && topicId) {
+                const topicNumber = parseInt(topicId);
+                window.progressManager.markTopicCompleted(topicNumber);
+                console.log(`Topic ${topicNumber} marked as completed after viewing summary`);
+            }
+        }
+        
+        function restartTopic() {
+            selectedAnswers = [];
+            currentScore = 0;
+            
+            // Reset quiz
+            document.getElementById('submit-btn').classList.remove('hidden');
+            document.getElementById('results').classList.add('hidden');
+            
+            // Use state manager to return to video state
+            stateManager.changeState('video');
+            
+            loadVideoContent();
+            updateProgress(33);
+        }
+        
+        function restartApp() {
+            // Hide the AR not supported message
+            const messageContainer = document.getElementById('ar-not-supported-message');
+            if (messageContainer) {
+                messageContainer.classList.add('hidden');
+            }
+            
+            // Go back to topics selection
+            stateManager.changeState('topics');
+        }
+        
+        function goHome() {
+            // Reset everything
+            selectedAnswers = [];
+            currentScore = 0;
+            currentTopic = '';
+            selectedCampus = '';
+            
+            // Use state manager to return to campus selection state
+            stateManager.changeState('menu');
+            
+            // Reset quiz state
+            document.getElementById('submit-btn').classList.remove('hidden');
+            document.getElementById('results').classList.add('hidden');
+        }
+        
+        function updateProgress(percent) {
+            document.getElementById('progress-bar').style.width = percent + '%';
+        }
+        
+
+
+        /**
+         * Simple Countdown Timer Function
+         * 
+         * Usage: onclick="countdownTimer(duration, callback, this)"
+         * Example: onclick="countdownTimer(5, startARExperience, this)"
+         */
+        function countdownTimer(duration, callback, buttonElement) {
+            // Always reset button to clean state first
+            const originalText = buttonElement.textContent.replace(/\(\d+s\)$/, '');
+            buttonElement.textContent = originalText;
+            buttonElement.disabled = false;
+            
+            let timeLeft = duration;
+            
+            // Update button text immediately
+            buttonElement.textContent = `${originalText} (${timeLeft}s)`;
+            buttonElement.disabled = true;
+            
+            const timer = setInterval(() => {
+                timeLeft--;
+                
+                if (timeLeft <= 0) {
+                    // Countdown finished
+                    clearInterval(timer);
+                    buttonElement.textContent = '🚀 Starting...';
+                    
+                    // Execute callback after brief delay
+                    setTimeout(() => {
+                        callback();
+                        // Reset button
+                        buttonElement.textContent = originalText;
+                        buttonElement.disabled = false;
+                    }, 500);
+                } else {
+                    // Update countdown display
+                    buttonElement.textContent = `${originalText} (${timeLeft}s)`;
+                }
+            }, 1000);
+            
+            // Return timer ID for potential cancellation
+            return timer;
+        }
+        
+        // Simple click debouncing - disable button for 1 second after click
+        document.addEventListener('click', function(event) {
+            if (event.target.classList.contains('btn')) {
+                event.target.disabled = true;
+                console.log('Button disabled 1s for: ' + event.target.id + ' - ' + event.target.textContent);
+                setTimeout(() => {
+                    event.target.disabled = false;
+                }, 1000);
+            }
+        });
+        
+        // Generic auto-trigger countdown for any button
+        function setupAutoTrigger(buttonId, duration, callback, delay = 500) {
+            const button = document.getElementById(buttonId);
+            if (button) {
+                // Small delay to ensure section is fully visible
+                setTimeout(() => {
+                    countdownTimer(duration, callback, button);
+                }, delay);
+            }
+        }
+        
+        // Make functions globally available
+        window.countdownTimer = countdownTimer;
+        window.setupAutoTrigger = setupAutoTrigger;
+
+        /*
+         * Celebration Functions
+         */
+        
+        // Share achievement function
+        function shareAchievement() {
+            // if (navigator.share) {
+            //     navigator.share({
+            //         title: 'NCPW 2025 Achievement',
+            //         text: 'I just completed all 4 topics in the National Child Protection Week 2025 Immersive Experience!',
+            //         url: window.location.href
+            //     }).catch(error => {
+            //         console.log('Error sharing:', error);
+            //         // Fallback: copy to clipboard
+            //         copyAchievementToClipboard();
+            //     });
+            // } else {
+            //     // Fallback: copy to clipboard
+            //     copyAchievementToClipboard();
+            // }
+        }
+        
+        // Copy achievement to clipboard (fallback)
+        function copyAchievementToClipboard() {
+            const text = 'I completed all 4 topics in the NCPW 2025 Immersive Experience! 🎉';
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Achievement copied to clipboard!');
+            }).catch(error => {
+                console.error('Failed to copy to clipboard:', error);
+                alert('Achievement: ' + text);
+            });
+        }
+        
+        // Manual celebration trigger function
+        function triggerCelebration() {
+            console.log('🎉 Manual celebration triggered from menu button');
+            stateManager.changeState('celebration');
+        }
+        
+        // Make function globally available
+        window.triggerCelebration = triggerCelebration;
+        
+        /**
+         * End of Main Application Script
+         * 
+         * All UI sections, state management, and user interactions are now implemented
+         * The app provides a complete flow from loading through AR scanning to video/quiz/summary
+         */
+    </script>
+</body>
+</html>

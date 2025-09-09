@@ -1,0 +1,1345 @@
+/* ==========================================================================
+   AR Learning App - Core Styles
+   ========================================================================== */
+
+/* ==========================================================================
+   1. CSS VARIABLES & ROOT STYLES
+   ========================================================================== */
+
+:root {
+    /* Color Palette */
+    --primary-color: #00c3ff;
+    --primary-hover: #1189a7;
+    --success-color: #28a745;
+    --success-hover: #1e7e34;
+    --secondary-color: #6c757d;
+    --secondary-hover: #545b62;
+    --danger-color: #dc3545;
+    --warning-color: #ffc107;
+    --info-color: #17a2b8;
+    
+    /* Background Colors */
+    --bg-primary: #f5f5f5;
+    --bg-secondary: #ffffff;
+    --bg-tertiary: #f8f9fa;
+    --bg-success: #d4edda;
+    --bg-danger: #f8d7da;
+    --bg-warning: #fff3cd;
+    --bg-info: #f8f9fa;
+    
+    /* Text Colors */
+    --text-primary: #333333;
+    --text-primary-alt: #ffffff;
+    --text-secondary: #666666;
+    --text-success: #155724;
+    --text-danger: #721c24;
+    --text-warning: #856404;
+    
+    /* Border Colors */
+    --border-primary: #e9ecef;
+    --border-hover: #007bff;
+    --border-success: #28a745;
+    --border-danger: #dc3545;
+    --border-warning: #ffc107;
+    --border-info: #17a2b8;
+    
+    /* Spacing */
+    --spacing-xs: 4px;
+    --spacing-sm: 8px;
+    --spacing-md: 16px;
+    --spacing-lg: 20px;
+    --spacing-xl: 30px;
+    --spacing-xxl: 40px;
+    
+    /* Border Radius */
+    --radius-sm: 4px;
+    --radius-md: 6px;
+    --radius-lg: 8px;
+    --radius-xl: 10px;
+    --radius-xxl: 15px;
+    
+    /* Shadows */
+    --shadow-sm: 0 4px 6px rgba(0,0,0,0.1);
+    
+    /* Transitions */
+    --transition-fast: all 0.2s;
+    --transition-medium: all 0.3s;
+    --transition-slow: all 0.5s;
+    --transition-slower: all 1s;
+
+    --ncpw-alt-green-dk: #013413;
+    --ncpw-alt-green: #05812f;
+    --ncpw-alt-green-lt1: #e6ffb3;
+    --ncpw-green: #93c727;
+
+    --ncpw-alt-pink-dk: #b1007f;
+    --ncpw-alt-pink-lt: #ff52a3;
+    --ncpw-pink: #d61366;
+    
+    --ncpw-alt-blue-dk: #00547e;
+    --ncpw-alt-blue-dk-half: rgba(0, 84, 126, 0.5);
+    --ncpw-alt-blue-dk-quarter: rgba(0, 84, 126, 0.25);
+    --ncpw-alt-blue-lt: #00d0d5;
+    --ncpw-blue: #4ac6e6;
+    
+}
+
+/* ==========================================================================
+   2. BASE STYLES & LAYOUT
+   ========================================================================== */
+
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    box-sizing: border-box;
+    font-family: "Noto Sans", 'Open Sans', sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    font-variation-settings: "wdth" 100;
+    
+    /* background-color: var(--ncpw-alt-green-dk); */
+    background: #013413;
+    /* background: linear-gradient(180deg,rgba(1, 52, 19, 1) 0%, rgba(5, 129, 47, 1) 50%, rgba(147, 199, 39, 1) 100%);     */
+    background-image: url(../../assets/misc/background.png),linear-gradient(180deg,rgba(1, 52, 19, 1) 0%, rgba(5, 129, 47, 1) 50%, rgba(147, 199, 39, 1) 100%);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-blend-mode: soft-light;
+    color: var(--text-primary-alt);
+}
+
+
+h1, h2, h3, h4 {
+    color: #fff;
+    margin-bottom: var(--spacing-md);
+    text-shadow: 1px 1px 2px #000;
+    font-family: "Caveat Brush", cursive, 'Open Sans', sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    margin-top:0;
+}
+
+h1 {
+    font-size: 3rem;
+
+}
+h2 {
+    font-size: 2.25rem;
+
+}
+h3 {
+    font-size: 1.8rem;
+
+}
+h4 {
+    font-family: "Noto Sans", 'Open Sans', sans-serif;
+    font-size: 1.8rem;
+}
+p {
+    line-height: 1.1;
+    margin: var(--spacing-sm) 0;
+    font-size: 1.1rem;
+    text-shadow: 1px 1px 1px black;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--radius-lg);
+    /* margin: var(--spacing-md) 0; */
+}
+
+ul {
+    margin-left: var(--spacing-lg);
+}
+
+li {
+    margin-bottom: var(--spacing-xs);
+}
+
+
+/* ==========================================================================
+   3. UTILITY CLASSES
+   ========================================================================== */
+
+.hidden {
+    display: none;
+}
+
+.card {
+    background: rgba(0, 0, 0, 0.9);
+    background: linear-gradient(0deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.95) 50%, rgba(0, 0, 0, 0.9) 100%);
+    padding: var(--spacing-lg);
+    border-radius: var(--radius-xxl) var(--radius-xxl) 0 0;
+    box-shadow: var(--shadow-sm);
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.light-card {
+    background: var(--bg-tertiary);
+    padding: var(--spacing-sm) var(--spacing-md) var(--spacing-md);
+    border-radius: var(--radius-lg);
+    text-align: center;
+    border: 2px solid var(--border-primary);
+    margin: var(--spacing-lg) 0; 
+    color: var(--text-primary);
+    text-shadow: none;
+}
+
+
+.section {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    padding: var(--spacing-lg);
+    box-sizing: border-box;
+    background: none;
+    z-index: 3;
+    overflow-y: auto;
+    overflow-x: hidden;
+    color: #fff;
+}
+
+
+/* ==========================================================================
+   4. BUTTON COMPONENTS
+   ========================================================================== */
+
+ 
+
+.btn {
+    background: var(--primary-color);
+    color: white;
+    padding: var(--spacing-md) var(--spacing-sm);
+    border: none;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    font-size: 1rem;
+    width: 70%;
+    height: 80px;
+    margin: var(--spacing-lg) 15% 0 15%;
+    font-family: "Caveat Brush", cursive, 'Open Sans', sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    transition: var(--transition-slower);
+}
+
+.btn-primary {
+    background: var(--ncpw-pink);
+    padding: var(--spacing-md) var(--spacing-sm);
+    font-size: 2rem;
+}
+
+.btn-primary:hover {
+    background: var(--ncpw-alt-pink-dk);
+    width: 80%;
+    margin: var(--spacing-lg) 10% 0 10%;
+    font-size: 2.1rem;
+}
+
+.btn-success {
+    background: var(--success-color);
+}
+
+.btn-success:hover {
+    background: var(--success-hover);
+}
+
+.btn-secondary {
+    background: var(--secondary-color);
+    width: 46%;
+    height: 65px;
+    margin: var(--spacing-lg) 27% 0 27%;
+    font-size: 1.5rem;
+
+}
+
+.btn-secondary:hover {
+    background: var(--secondary-hover);
+    width: 56%;
+    margin: var(--spacing-lg) 22% 0 22%;
+    font-size: 1.6rem;
+}
+
+/* ==========================================================================
+   5. PROGRESS COMPONENTS
+   ========================================================================== */
+
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background: var(--ncpw-alt-green);
+    border-radius: var(--radius-sm);
+    margin-bottom: var(--spacing-lg);
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: var(--ncpw-green);
+    width: 33%;
+    transition: var(--transition-medium);
+}
+
+.progress-text {
+    margin-top: var(--spacing-md);
+    /* color: var(--text-secondary); */
+    font-size: 16px;
+}
+
+/* ==========================================================================
+   6. LOADING SECTION STYLES
+   ========================================================================== */
+
+#loading-section {
+    /* Loading section specific styles */
+}
+
+.loading-content {
+    text-align: center;
+    padding: var(--spacing-xl);
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    align-items: stretch;
+    box-sizing: border-box;
+    text-align: center;
+    padding: var(--spacing-xl);
+}
+
+
+.loading-spinner {
+    width: 60px;
+    height: 60px;
+    border: 4px solid var(--ncpw-alt-green);
+    border-top: 4px solid var(--ncpw-green);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto var(--spacing-lg);
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* ==========================================================================
+   7. CAMPUS SELECTION SECTION STYLES
+   ========================================================================== */
+
+#campus-section {
+ 
+}
+
+.campus-content {
+    text-align: center;
+    padding: var(--spacing-xl);
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    align-items: stretch;
+    box-sizing: border-box;
+    text-align: center;
+    padding: var(--spacing-xl);
+}
+
+.campus-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-lg);
+    margin-top: var(--spacing-lg);
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    justify-items: center;
+}
+
+.campus-card {
+    background: #fff;
+    padding: var(--spacing-xl);
+    border-radius: var(--radius-xl);
+    text-align: center;
+    cursor: pointer;
+    border: 2px solid var(--border-primary);
+    transition: var(--transition-fast);
+    max-width: 150px;
+    max-height: 120px;
+    width: 100%;
+    height: 100%;
+}
+
+.campus-card:hover {
+    border-color: var(--border-hover);
+    background: var(--bg-info);
+}
+
+.campus-logo {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    margin-bottom: var(--spacing-md);
+    border-radius: var(--radius-md);
+}
+
+.campus-name {
+    font-weight: bold;
+    font-size: 18px;
+    color: var(--text-primary);
+}
+
+/* ==========================================================================
+   8. MENU SECTION STYLES
+   ========================================================================== */
+
+#menu-section {
+
+}
+
+.hero {
+    width: 100%;
+    height: 100%;
+    background-size: auto;
+    background-blend-mode: soft-light;
+    background-position: 50% 40%;
+    background-size: 240%;
+    background-image: url(../../assets/topic_1/s01-imagetarget.png), linear-gradient(180deg, rgba(1, 52, 19, 1) 0, rgba(5, 129, 47, 1) 42%, rgba(147, 199, 39, 1) 100%);
+    border-radius: 0 0px 8px 8px;
+    position: absolute;
+    top: 0;
+    width: 100vw;
+    margin: -20px -20px 0 -20px;
+    z-index: 1;
+    background-repeat: repeat;
+}
+
+.menu-content {
+    padding: var(--spacing-xl);
+    text-align: left;
+    margin: 0;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    box-sizing: border-box;
+    z-index: 2;
+}
+
+.menu-content h2 {
+    position: relative;
+    margin-top: -100px;
+    margin-bottom: 35px;
+    font-size: 3em;
+}
+
+
+.light-card {
+    background: var(--bg-tertiary);
+    padding: var(--spacing-sm) var(--spacing-md) var(--spacing-md);
+    border-radius: var(--radius-lg);
+    text-align: center;
+    border: 2px solid var(--border-primary);
+    margin: var(--spacing-lg) 0; 
+    color: var(--text-primary);
+    text-shadow: none;
+}
+
+.status-card p { 
+    color: var(--text-primary);
+    text-shadow: none;
+}
+
+.status-icon {
+    font-size: 32px;
+    margin-bottom: var(--spacing-md);
+    display: block;
+}
+
+.status-text {
+    font-weight: bold;
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-xs);
+}
+
+.completion-count {
+    font-size: 18px;
+    color: var(--text-primary);
+    font-weight: bold;
+    text-shadow: none;
+}
+
+.progress-bar-container {
+    width: 100%;
+    height: 8px;
+    background-color: var(--secondary-color);
+    border-radius: 4px;
+    margin-top: var(--spacing-sm);
+    overflow: hidden;
+}
+
+.completed-topics {
+    margin-top: var(--spacing-lg);
+    padding: var(--spacing-lg);
+    background: var(--bg-tertiary);
+    border-radius: var(--radius-lg);
+    border: 2px solid var(--border-primary);
+}
+
+.completed-topics h3 {
+    margin: 0 0 var(--spacing-md) 0;
+    color: var(--text-primary);
+    font-size: 18px;
+}
+
+.completed-topics-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.completed-topic-item {
+    padding: var(--spacing-sm) 0;
+    color: var(--success-color);
+    font-weight: 500;
+    border-bottom: 1px solid var(--border-secondary);
+}
+
+.completed-topic-item:last-child {
+    border-bottom: none;
+}
+
+.menu-info {
+    margin-top: var(--spacing-xl);
+    text-align: center;
+}
+
+.menu-info p {
+    margin-bottom: var(--spacing-sm);
+    /* color: var(--text-secondary); */
+    font-size: 14px;
+}
+
+/* ==========================================================================
+   9. SCANNING SECTION STYLES
+   ========================================================================== */
+
+@media (min-aspect-ratio: 1 / 1) {
+    .mindar-ui-scanning .scanning {
+        width: 45vw;
+        height: 45vw;
+    }
+}
+@media (max-aspect-ratio: 1 / 1) {
+    .mindar-ui-scanning .scanning {
+        width: 45vw;
+        height: 45vw;
+    }
+}
+
+.mindar-ui-compatibility .content {
+    background: rgba(0, 0, 0, 0.8);
+    min-height: 30vh !important;
+}    
+
+
+#scanning-section {
+
+}
+
+.scanning-instruction {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: space-evenly;
+    align-content: center;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+}
+
+.step-icon {
+    margin-right: var(--spacing-md);
+    font-size: 20px;
+}
+
+
+
+.error-section {
+    margin: var(--spacing-xl) 0;
+    text-align: center;
+}
+
+.error-message {
+    background: var(--bg-danger);
+    border: 1px solid var(--border-danger);
+    color: var(--text-danger);
+    padding: var(--spacing-lg);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--spacing-lg);
+}
+
+.error-icon {
+    font-size: 24px;
+    display: block;
+    margin-bottom: var(--spacing-md);
+}
+
+/* ==========================================================================
+   10. AR READY SECTION STYLES
+   ========================================================================== */
+
+#ar-ready-section {
+    /* AR Ready section specific styles */
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 3;
+    box-sizing: border-box;
+    background: none;
+}
+
+.detection-success {
+    text-align: center;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+
+.success-icon {
+    font-size: 48px;
+    margin-bottom: var(--spacing-md);
+    position: relative;
+    margin-top: -64px;
+}
+
+.poster-info h3 {
+    margin-bottom: var(--spacing-sm);
+}
+
+.poster-info p {
+    font-size: 18px;
+}
+
+/* #detected-topic-name {
+    font-weight: bold;
+    color: var(--primary-color);
+} */
+
+/* .ar-instructions {
+    margin: var(--spacing-xl) 0;
+}
+
+.ar-instructions h3 {
+    text-align: center;
+    margin-bottom: var(--spacing-lg);
+    color: var(--text-primary);
+}
+
+.instruction-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.instruction-item {
+    display: flex;
+    align-items: center;
+    background: var(--bg-tertiary);
+    padding: var(--spacing-md);
+    border-radius: var(--radius-md);
+    border-left: 4px solid var(--primary-color);
+} */
+
+.step-number {
+    background: var(--primary-color);
+    color: white;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 14px;
+    margin-right: var(--spacing-md);
+}
+
+.app-tip {
+    margin: var(--spacing-lg);
+    margin-left: -25%;
+    text-align: center;
+    background: var(--bg-info);
+    border: 1px solid var(--ncpw-alt-green);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-sm);
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    width: 50%;
+    max-width: 600px;
+    color: var(--text-primary);
+}
+
+.app-tip p {
+    margin: 0;
+    /* color: var(--text-secondary); */
+    font-size: 14px;
+    text-shadow:none;
+}
+
+/* ==========================================================================
+   11. ANIMATING SECTION STYLES
+   ========================================================================== */
+
+#animating-section {
+    /* Animating section specific styles */
+}
+
+.ar-loading-container {
+    text-align: center;
+    margin: var(--spacing-xl) 0;
+}
+
+.ar-loading-animation {
+    position: relative;
+    margin: var(--spacing-xl) 0;
+}
+
+.ar-spinner {
+    width: 80px;
+    height: 80px;
+    border: 4px solid var(--border-primary);
+    border-top: 4px solid var(--primary-color);
+    border-radius: 50%;
+    animation: ar-spin 1.5s linear infinite;
+    margin: 0 auto;
+}
+
+@keyframes ar-spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.ar-pulse {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60px;
+    height: 60px;
+    border: 3px solid var(--primary-color);
+    border-radius: 50%;
+    animation: ar-pulse 2s ease-in-out infinite;
+    opacity: 0.6;
+}
+
+@keyframes ar-pulse {
+    0%, 100% { 
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0.6;
+    }
+    50% { 
+        transform: translate(-50%, -50%) scale(1.2);
+        opacity: 0.3;
+    }
+}
+
+.loading-steps {
+    margin: var(--spacing-xl) 0;
+}
+
+.loading-step {
+    display: flex;
+    align-items: center;
+    background: var(--bg-tertiary);
+    padding: var(--spacing-md);
+    border-radius: var(--radius-md);
+    margin: var(--spacing-md) 0;
+    border-left: 4px solid var(--border-primary);
+    transition: var(--transition-medium);
+}
+
+.loading-step.completed {
+    border-left-color: var(--success-color);
+    background: var(--bg-success);
+}
+
+.loading-step.active {
+    border-left-color: var(--primary-color);
+    background: var(--bg-info);
+}
+
+.loading-step .step-icon {
+    font-size: 20px;
+    margin-right: var(--spacing-md);
+    width: 30px;
+    text-align: center;
+}
+
+.loading-step .step-text {
+    flex: 1;
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.loading-step .step-status {
+    font-size: 18px;
+    margin-left: var(--spacing-md);
+}
+
+.loading-step.completed .step-status {
+    color: var(--success-color);
+}
+
+.loading-step.active .step-status {
+    color: var(--primary-color);
+}
+
+.ar-progress-container {
+    margin: var(--spacing-xl) 0;
+}
+
+.ar-progress-bar {
+    width: 100%;
+    height: 12px;
+    background: var(--border-primary);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    margin-bottom: var(--spacing-md);
+}
+
+.ar-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary-color), var(--success-color));
+    width: 0%;
+    transition: width 0.5s ease-in-out;
+    border-radius: var(--radius-sm);
+}
+
+.ar-progress-text {
+    /* color: var(--text-secondary); */
+    font-size: 16px;
+    font-weight: 500;
+}
+
+#ar-progress-percentage {
+    color: var(--primary-color);
+    font-weight: bold;
+}
+
+.ar-loading-note {
+    margin-top: var(--spacing-xl);
+    text-align: center;
+    background: var(--bg-warning);
+    border: 1px solid var(--border-warning);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-lg);
+}
+
+.ar-loading-note p {
+    margin: var(--spacing-sm) 0;
+    color: var(--text-warning);
+    font-size: 14px;
+}
+
+.ar-loading-note p:first-child {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+
+
+.scenario-ui-prompt {
+    display: flex;
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    z-index: 1000;
+    padding: 10px 2%;
+    width: 96%;
+    height: auto;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: stretch;
+    align-content: stretch;
+    color: #fff;
+    text-shadow: 1px 1px 2px #000;
+  }
+  
+  .scenario-ui-prompt-speech {
+    display: none;
+    opacity: 0;
+    flex-grow: 0;
+    flex-shrink: 1;
+    flex-basis: auto;
+    align-self: flex-start;
+    order: 0;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: auto;
+    padding: 5px 10px;
+    margin: 10px 0;
+    border-radius: 8px;
+    background: rgb(132 105 161 / 85%);
+    border: 1px solid rgba(92, 74, 112, 0.9);
+    width: auto;
+  }
+  
+  .scenario-ui-prompt-speech-profile {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex: 0 0 50px;
+  }
+  
+  .scenario-ui-prompt-speech-profile img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;          
+  }
+  
+  .scenario-ui-prompt-speech-content {
+    margin: 0 10px;
+    font-size: 16px;
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-content: flex-start;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin-bottom: var(--spacing-md);
+  }
+  
+  .scenario-ui-prompt-speech-content>span:nth-child(1) { 
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-bottom: var(--spacing-sm);
+  }
+  
+  .scenario-ui-prompt-speech-content>span:nth-child(2) {
+    font-size: 1.2rem;
+    font-weight: normal;
+  }
+  
+  .scenario-ui-prompt-speech.right {
+    align-self: flex-end;
+    flex-direction: row-reverse;
+    background: rgb(127 189 66 / 85%);
+    border: 1px solid rgba(66, 97, 34, 0.9);
+  }
+  
+  .scenario-ui-prompt-speech.right .scenario-ui-prompt-speech-content {
+    align-items: flex-end;  
+  }
+  
+  .scenario-ui-prompt-speech.right .scenario-ui-prompt-speech-profile {
+    /* margin: 0;
+    margin-left: 30px; */
+  }
+  
+  .scenario-ui-prompt-button-area {
+    display: none;
+    padding: 20px 0%;
+    width: 100%;
+  }
+  
+  #scenario-ui-prompt-button {
+ 
+  }
+  #scenario {
+    z-index: 1001;
+  }
+
+
+/* ==========================================================================
+   12. TOPIC SELECTION STYLES
+   ========================================================================== */
+
+.topic-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-lg);
+}
+
+.topic-card {
+    background: var(--bg-tertiary);
+    padding: var(--spacing-lg);
+    border-radius: var(--radius-xl);
+    text-align: center;
+    cursor: pointer;
+    border: 2px solid var(--border-primary);
+    transition: var(--transition-fast);
+}
+
+.topic-card:hover {
+    border-color: var(--border-hover);
+    background: var(--bg-info);
+}
+
+.topic-icon {
+    font-size: 40px;
+    margin-bottom: var(--spacing-md);
+    display: block;
+}
+
+.topic-icon-img {
+    width: 40px;
+    height: 40px;
+    margin-bottom: var(--spacing-md);
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    object-fit: contain;
+}
+
+.topic-title {
+    font-weight: bold;
+    margin-bottom: var(--spacing-xs);
+    color: var(--text-primary);
+}
+
+.topic-desc {
+    font-size: 14px;
+    /* color: var(--text-secondary); */
+}
+
+/* ==========================================================================
+   13. VIDEO SECTION STYLES
+   ========================================================================== */
+
+#video-section {
+    /* Video section specific styles */
+}
+
+#video-section .hero {
+    background-position: 50% 12%;
+    background-size: 170%;
+}
+
+.video-content {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    /* height: auto; */
+    /* overflow-y: scroll; */
+    z-index: 2;
+}
+
+.video-container {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 56.25%;
+    margin-bottom: var(--spacing-lg);
+}
+
+.video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: var(--radius-lg);
+}
+
+/* ==========================================================================
+   14. QUIZ SECTION STYLES
+   ========================================================================== */
+
+#quiz-section {
+    /* Quiz section specific styles */
+}
+
+
+.quiz-content {
+    position: absolute;
+    top: 35%;
+    left: 0;
+    width: 100%;
+    height: auto;
+    z-index: 2;
+}
+
+.question-box {
+    background: var(--ncpw-alt-blue-dk-quarter);
+    padding: var(--spacing-md);
+    margin: var(--spacing-xl) 0;
+    border-left: 4px solid var(--border-info);
+}
+
+.question-box .question {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: var(--spacing-sm);
+}
+
+.question-box .instructions {
+    font-size: 0.9rem;
+    font-weight: normal;
+    margin-bottom: var(--spacing-sm);
+}
+
+.answer {
+    background: var(--ncpw-alt-blue-dk-half);
+    padding: var(--spacing-md);
+    margin: var(--spacing-md) 0;
+    border-left: 4px solid var(--ncpw-blue);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.answer:hover {
+    border-left: 4px solid var(--ncpw-alt-blue-lt);
+}
+
+.answer.selected {
+    border-color: var(--border-hover);
+    background: var(--bg-info);
+}
+
+.answer.correct {
+    border-color: var(--border-success);
+    background: var(--bg-success);
+    color: var(--text-success);
+    border-left-width: 8px;
+    pointer-events: none;
+    cursor:not-allowed;
+}
+
+.answer.incorrect {
+    border-color: var(--border-danger);
+    background: var(--bg-danger);
+    color: var(--text-danger);
+    border-left-width: 8px;
+    pointer-events: none;
+    cursor:not-allowed;
+}
+
+.answer.missed {
+    border-color: var(--border-warning);
+    background: var(--bg-warning);
+    color: var(--text-warning);
+    border-left-width: 8px;
+    cursor:not-allowed;
+}
+
+.answer.not-selected {
+    pointer-events: none;
+    cursor:not-allowed;
+}
+
+.score-box {
+    background: var(--bg-warning);
+    border: 1px solid var(--border-warning);
+    color: var(--text-warning);
+    padding: var(--spacing-md);
+    border-radius: var(--radius-md);
+    text-align: center;
+    font-weight: bold;
+    margin: var(--spacing-md) 0;
+}
+
+.feedback-box {
+    background: var(--ncpw-alt-blue-dk-quarter);
+    padding: var(--spacing-md);
+    margin: var(--spacing-xl) 0;
+    border-left: 4px solid var(--border-info);
+}
+
+/* ==========================================================================
+   15. SUMMARY SECTION STYLES
+   ========================================================================== */
+
+#summary-section {
+    /* Summary section specific styles */
+}
+
+/* ==========================================================================
+   16. NAVIGATION & LINKS
+   ========================================================================== */
+
+.back-link {
+    color: var(--primary-color);
+    cursor: pointer;
+    font-size: 14px;
+    margin-bottom: var(--spacing-md);
+    text-decoration: underline;
+}
+
+.back-link:hover {
+    color: var(--primary-hover);
+}
+
+/* ==========================================================================
+   17. AR NOT SUPPORTED MODAL
+   ========================================================================== */
+
+.ar-not-supported-message {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.ar-not-supported-message .message-content {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    text-align: center;
+    max-width: 400px;
+    margin: 1rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.ar-not-supported-message h3 {
+    color: #e74c3c;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+}
+
+.ar-not-supported-message p {
+    color: #555;
+    margin-bottom: 1rem;
+    line-height: 1.5;
+}
+
+.ar-not-supported-message .btn {
+    margin-top: 1rem;
+    background: #3498db;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background 0.3s ease;
+}
+
+.ar-not-supported-message .btn:hover {
+    background: #2980b9;
+}
+
+/* ==========================================================================
+   18. AR SCENE CONTAINER STYLES
+   ========================================================================== */
+
+.ar-scene-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    background: transparent;
+    pointer-events: none;
+}
+
+.ar-scene-container a-scene {
+    width: 100%;
+    height: 100%;
+    pointer-events: auto;
+}
+
+/* Fix MindAR video element dimensions */
+.ar-scene-container video {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    z-index: 1 !important;
+    object-fit: cover !important;
+}
+
+/* ==========================================================================
+   19. MOBILE CONSOLE STYLES
+   ========================================================================== */
+
+.console-log {
+    color: var(--text-primary);
+    background: #000;
+    padding: var(--spacing-sm);
+    margin: var(--spacing-xs) 0;
+    border-left: 3px solid var(--info-color);
+    font-family: monospace;
+    font-size: 12px;
+    white-space: pre-wrap;
+}
+
+.console-warn {
+    color: var(--text-warning);
+    background: var(--bg-warning);
+    padding: var(--spacing-sm);
+    margin: var(--spacing-xs) 0;
+    border-left: 3px solid var(--warning-color);
+    font-family: monospace;
+    font-size: 12px;
+    white-space: pre-wrap;
+}
+
+.console-error {
+    color: var(--text-danger);
+    background: var(--bg-danger);
+    padding: var(--spacing-sm);
+    margin: var(--spacing-xs) 0;
+    border-left: 3px solid var(--danger-color);
+    font-family: monospace;
+    font-size: 12px;
+    white-space: pre-wrap;
+}
+
+.console-info {
+    color: var(--text-primary);
+    background: var(--bg-info);
+    padding: var(--spacing-sm);
+    margin: var(--spacing-xs) 0;
+    border-left: 3px solid var(--info-color);
+    font-family: monospace;
+    font-size: 12px;
+    white-space: pre-wrap;
+}
+
+
+
+/* ==========================================================================
+   19. RESPONSIVE DESIGN
+   ========================================================================== */
+
+@media (max-width: 600px) {
+    .topic-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .campus-grid {
+        grid-template-columns: 1fr;
+    }
+}
