@@ -420,8 +420,6 @@ class MobileConsole {
 
     // Copy console output to clipboard
     copyConsoleToClipboard() {
-        const consoleOutput = document.getElementById('console-output');
-        if (!consoleOutput) return;
         
         console.log(`🔍 Enhanced Device Detection:`);
         console.log(`  User Agent Mobile: ${isMobileUA}`);
@@ -434,6 +432,12 @@ class MobileConsole {
         console.log(`  User Agent: ${userAgent}`);
         console.log(`  Platform: ${platform}`);
         console.log(`  Screen Ratio: ${screenRatio}`);
+    
+
+        setTimeout(() => {
+        const consoleOutput = document.getElementById('console-output');
+        if (!consoleOutput) return;
+        
 
         // Collect all console entries
         const entries = Array.from(consoleOutput.children);
@@ -451,6 +455,7 @@ class MobileConsole {
             console.error('Failed to copy to clipboard:', err);
             this.fallbackCopy(fullText);
         });
+        }, 200);
     }
 
     // Show visual feedback for successful copy
