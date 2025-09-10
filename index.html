@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Learning App</title>
+    <title>NCPW25</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Caveat+Brush&family=Noto+Sans&display=swap" rel="stylesheet">
@@ -17,8 +17,8 @@
      <!-- A-Frame Library - Required for 3D scenes and AR functionality -->
      <script src="https://aframe.io/releases/1.7.0/aframe.min.js"></script>
      
-     <!-- MindAR Library - Required for AR functionality -->
-     <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+    <!-- MindAR Library - DISABLED for direct animation mode -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script> -->
      
      <!-- Anime.js Library - Required for timeline animations -->
      <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
@@ -46,7 +46,7 @@
 
 
 
-    <div id="debug">
+    <!-- <div id="debug">
         <button id="debug-toggle" onclick="toggleDebugConsole()">
             <span id="debug-info">v2.26 - loading</span>
             <span id="debug-arrow">▼</span>            
@@ -55,7 +55,7 @@
             <div id="console-output"></div>
             <button id="copy-console-btn" onclick="copyConsoleToClipboard()">📋 Copy Console</button>
         </div>
-    </div>
+    </div> -->
 
     <!-- Loading Section -->
     <div id="loading-section" class="section">
@@ -74,35 +74,20 @@
     <!-- Splash Section -->
     <div id="splash-section" class="hidden section">
         <div class="splash-content">
-            <div class="splash-actions">
-                <img src="./assets/misc/call-to-action.png" alt="National Child Protection Week 2025" class="splash-logo">
+            <div class="splash-actions" style="text-align: center;">
+                <img style="margin-top: -56px;margin-bottom: -80px;" src="./assets/misc/call-to-action.png" alt="National Child Protection Week 2025" class="splash-logo">
                 <h1>Welcome!</h1>
                 <h2>#NCPW2025</h2>
                 <h4>National Child Protection Week 2025</h2>
-                <h4>Immersive Augmented Reality Experience</h4>
             </div>
-                <h2 style="text-align: center;">⬇️</h2>
-        <div class="splash-actions">
-            <h4>How to use the app: (TBC)</h4>
-            <p>Jesse note: add images here for onboarding</p>
-            <ul>
-                <li>Scan the posters to unlock the immersive AR experience</li>
-                <li>Watch the videos to learn about the topics</li>
-                <li>Answer the questions to test your knowledge</li>
-                <li>Find all 4 and unlock an exclusive reward!</li>
-            </ul>
-        </div>
-            <h2 style="text-align: center;">⬇️</h2>
-        <div class="splash-actions">
-            <h4 style="text-align: center;">Ready?</h4>
-                <p style="text-align: center;">Let's go!</p>
+                <p><strong>About this app</strong></p>
+                <p>Watch the animated scenarios and videos to learn about each topic.</p>
+                <p>Then answer the questions to test your knowledge.</p>
+
                     <button id="start-app-button" class="btn btn-primary">
-                     🚀 Get Started 
+                     🚀 Let's begin!
                 </button>
-                <BR>
-                    <BR>
-                        <BR>
-                        </div>
+
         </div>
     </div>
 
@@ -143,8 +128,7 @@
         <div class="hero"></div>
         <div class="menu-content card">
             <h1>Welcome!</h1>
-            <p>We hope you enjoy this Immersive Experience for National Child Protection Week 2025.</p>
-            <p>There are <span>4 posters to find</span>, each representing a different #NCPW2025 topic. </p>
+            <p>There are <span>4 topics to explore</span> below, each representing an inportant concept related to #NCPW2025.</p>
             <div class="completion-status">
                 <div class="light-card">
                     <!-- <span class="status-icon">📊</span> -->
@@ -155,10 +139,11 @@
                     </div>
                     <!-- Celebration button - only shown when all topics completed -->
                     <div id="celebration-button-container" class="celebration-button-container" style="display: none;">
-                        <button id="celebration-button" class="celebration-button" onclick="triggerCelebration()">
+                        <!-- <button id="celebration-button" class="celebration-button" onclick="triggerCelebration()">
                             <span class="celebration-icon">🏆</span>
                             <span class="celebration-text">Your Reward!</span>
-                        </button>
+                        </button> -->
+                        <p>Well done!</p><p>You have completed all 4 topics!</p>
                     </div>
                 </div>
                 <div class="completed-topics" id="completed-topics-section" style="display: none;">
@@ -168,11 +153,25 @@
                     </ul>
                 </div>
             </div>
-                        
+<!--                         
             <p>Find and scan each of the 4 posters to unlock a different immersive experience.</p>
-            <button class="btn btn-primary" onclick="startARScanning()">
+            <button class="btn btn-primary" onclick="startDirectAnimation()">
                 🚀 Let's Go!
-            </button>
+            </button> -->
+            
+            <!-- Manual Topic Selection Buttons -->
+                    <button class="btn btn-primary topic-button topic_1" onclick="goToTopic(1)">
+                        Protecting Yourself Online
+                    </button>
+                    <button class="btn btn-primary topic-button topic_2" onclick="goToTopic(2)">
+                        Navigating Difficult Situations
+                    </button>
+                    <button class="btn btn-primary topic-button topic_3" onclick="goToTopic(3)">
+                        Respectful Relationships Online
+                    </button>
+                    <button class="btn btn-primary topic-button topic_4" onclick="goToTopic(4)">
+                        Seeking Help and Support
+                    </button>
             
          
         </div>
@@ -237,13 +236,14 @@
         </div>
     </div>
                 
-        <!-- <div class="error-section hidden">
-            <div class="error-message">
-                <span class="error-icon">⚠️</span>
-                <p>Camera access denied. Please enable camera permissions to continue.</p>
-            </div>
+    <div class="error-section hidden">
+        <div class="error-message">
+            <span class="error-icon">⚠️</span>
+            <p>Camera access denied. Please enable camera permissions to continue.</p>
+            <button class="btn btn-primary" onclick="hideErrorAndReturnToMenu()">Return to Menu</button>
         </div>
-    </div> -->
+    </div>
+
     
     <!-- AR Ready Section -->
     <div id="ar-ready-section" class="hidden section">
@@ -252,7 +252,7 @@
             <div class="poster-info">
                 <p id="detected-poster-desc">You found:</p>
                 <h3 id="detected-poster-title">Learning Poster Detected</h3>
-                <button class="btn btn-primary" id="start-ar-button" onclick="countdownTimer(5, startARExperience, this)">
+                <button class="btn btn-primary" id="start-ar-button" onclick="startARExperience()">
                     🚀 Start
                 </button>
                 <button class="btn btn-secondary" onclick="goBackToMenu()">Go Back</button>
@@ -338,7 +338,7 @@
 
             <div id="results" class="hidden">
                 <div class="light-card">
-                    <div id="score" class="score-box">0 correct of 0.</div>
+                    <!-- <div id="score" class="score-box"></div> -->
                     <div id="feedback">Feedback will appear here</div>
                 </div>
                 <button class="btn btn-primary" onclick="goToSummary()">Continue</button>
@@ -360,8 +360,8 @@
                 <!-- Summary will be loaded here -->
             </div>
             <div>
-                <p>You have <strong><span id="progress-left">3</span></strong> more posters to find.</p>
-                <p id="progress-left-message">Find all of the remaining posters to unlock a special reward.</p>
+                <!-- <p style="display:none">You have <strong><span id="progress-left">3</span></strong> more posters to find.</p> -->
+                <!-- <p id="progress-left-message">Find all of the remaining posters to learn more!</p> -->
                 <BR><BR>
                 <button class="btn btn-primary" onclick="goHome()">Continue</button>
                 <!-- <button class="btn btn-secondary" onclick="restartTopic()">Go Back</button> -->
@@ -423,7 +423,7 @@
          * - Content loading functions
          */
         
-        let version = '3.03';
+        let version = '3.09';
         let currentTopic = '';
         let selectedAnswers = [];
         let currentScore = 0;
@@ -464,7 +464,7 @@
                 console.error('Loading elements not found, skipping simulation');
                 // Fallback: just transition to campus selection
                 setTimeout(() => {
-                    stateManager.changeState('campus_selection');
+                    //stateManager.changeState('campus_selection');
                 }, 500);
                 return;
             }
@@ -598,6 +598,9 @@
             console.log('🎬 App: Starting AR scanning process...');
             
             if (window.arSceneManager) {
+
+
+
                 console.log('🚀 App: Initializing AR Scene Manager...');
                 window.arSceneManager.initialize().then(() => {
                     console.log('✅ App: AR Scene Manager ready - starting scanning');
@@ -608,6 +611,62 @@
                 });
             } else {
                 console.error('❌ App: AR Scene Manager not available');
+            }
+        }
+        
+        // Direct animation function - bypasses MindAR completely
+        function startDirectAnimation() {
+            console.log('🎬 App: Starting direct animation (bypassing MindAR)...');
+            
+            // Set topic 3 as default (1-based topic number)
+            window.currentTopic = 'topic_1';
+            console.log('📚 App: Set current topic to topic_1');
+            
+            // Initialize AR Scene Manager but skip scanning
+            if (window.arSceneManager) {
+                window.arSceneManager.initialize().then(() => {
+                    console.log('✅ App: AR Scene Manager ready - injecting scene for animation');
+                    
+                    // Inject the A-Frame scene (needed for animations)
+                    window.arSceneManager.injectARScene();
+                    
+                    // Skip scanning states, go straight to animating
+                    stateManager.changeState('animating');
+                    
+                    // Start the animation for topic 3
+                    setTimeout(() => {
+                        if (window.arSceneManager) {
+                            window.arSceneManager.startARExperience();
+                        }
+                    }, 500);
+                    
+                }).catch(error => {
+                    console.error('❌ App: Failed to initialize AR Scene Manager:', error);
+                });
+            } else {
+                console.error('❌ App: AR Scene Manager not available');
+            }
+        }
+        
+        // Console function to select different topics
+        function selectTopic(topicNumber) {
+            if (topicNumber < 1 || topicNumber > 4) {
+                console.error('❌ Invalid topic number. Use 1, 2, 3, or 4');
+                return;
+            }
+            
+            const topicId = `topic_${topicNumber}`;
+            window.currentTopic = topicId;
+            currentTopic = topicId; // Also update local variable
+            updateBodyTopicClass(topicId);
+            console.log(`📚 App: Topic changed to ${topicId}`);
+            
+            // If we're already in animating state, restart the animation
+            if (stateManager.getCurrentState() === 'animating') {
+                console.log('🔄 App: Restarting animation with new topic');
+                if (window.arSceneManager) {
+                    window.arSceneManager.startARExperience();
+                }
             }
         }
         
@@ -629,6 +688,8 @@
 
         
         function goBackToMenu() {
+            // Clear topic class when returning to menu
+            updateBodyTopicClass(null);
             // Go back to menu state
             stateManager.changeState('menu');
         }
@@ -638,8 +699,10 @@
         }
         function startTopic(topic) {
             currentTopic = topic;
+            window.currentTopic = topic; // Also set global variable
             selectedAnswers = [];
             currentScore = 0;
+            updateBodyTopicClass(topic);
             
             // Use state manager to change to menu state
             stateManager.changeState('menu');
@@ -648,13 +711,36 @@
         // Function to set current topic (called by mindarManager)
         function setCurrentTopic(topic) {
             currentTopic = topic;
+            window.currentTopic = topic; // Also set global variable
+            updateBodyTopicClass(topic);
             console.log(`🎯 Current topic set to: ${currentTopic}`);
+        }
+        
+        // Function to update body class based on current topic
+        function updateBodyTopicClass(topic) {
+            const body = document.body;
+            
+            // Remove all existing topic classes
+            body.classList.remove('topic_1', 'topic_2', 'topic_3', 'topic_4');
+            
+            // Add the current topic class
+            if (topic) {
+                body.classList.add(topic);
+                console.log(`🎨 Body class updated to: ${topic}`);
+            } else {
+                console.log(`🎨 Body class cleared - no topic selected`);
+            }
+        }
+        
+        // Function to clear topic class (useful for menu state)
+        function clearTopicClass() {
+            updateBodyTopicClass(null);
         }
         
         function loadVideoContent() {
             // Use topics.js helper functions to get topic information
-            const topicId = currentTopic.replace('topic_', '');
-            console.log('🎬 Loading video content for topic:', currentTopic, 'topicId:', topicId);
+            const topicId = window.currentTopic ? window.currentTopic.replace('topic_', '') : '3';
+            console.log('🎬 Loading video content for topic:', window.currentTopic, 'topicId:', topicId);
             
             const topicTitle = window.getTopicTitle ? window.getTopicTitle(topicId) : 'Learning Topic';
             const topicContent = window.getTopicContent ? window.getTopicContent(topicId) : ['Content will be loaded here.'];
@@ -679,7 +765,7 @@
                     videoIframe.src = topicVideoUrl;
                 } else {
                     // No fallback - let the iframe remain empty/broken
-                    console.error(`❌ No video URL found for topic: ${currentTopic}`);
+                    console.error(`❌ No video URL found for topic: ${window.currentTopic}`);
                     videoIframe.src = '';
                 }
             } else {
@@ -705,7 +791,7 @@
         }
         
         function loadQuiz() {
-            const topicId = currentTopic.replace('topic_', '');
+            const topicId = window.currentTopic ? window.currentTopic.replace('topic_', '') : '3';
             const question = window.getTopicQuestion ? window.getTopicQuestion(topicId) : 'Loading question...';
             const answers = window.getTopicAnswers ? window.getTopicAnswers(topicId) : [];
             
@@ -723,6 +809,9 @@
             });
         }
         
+        // Make loadQuiz available globally
+        window.loadQuiz = loadQuiz;
+        
         function selectAnswer(index) {
             const answerDiv = document.getElementsByClassName('answer')[index];
             
@@ -736,7 +825,7 @@
         }
         
         function checkAnswers() {
-            const topicId = currentTopic.replace('topic_', '');
+            const topicId = window.currentTopic ? window.currentTopic.replace('topic_', '') : '3';
             const answers = window.getTopicAnswers ? window.getTopicAnswers(topicId) : [];
             const correctAnswers = answers.map((answer, index) => 
                 answer.correct ? index : null).filter(i => i !== null);
@@ -766,7 +855,7 @@
         }
         
         function showQuizResults(correctAnswers) {
-            const topicId = currentTopic.replace('topic_', '');
+            const topicId = window.currentTopic ? window.currentTopic.replace('topic_', '') : '3';
             const answers = window.getTopicAnswers ? window.getTopicAnswers(topicId) : [];
             const feedback = window.getTopicFeedback ? window.getTopicFeedback(topicId) : { perfect: '', partial: '' };
             const answerElements = document.getElementsByClassName('answer');
@@ -793,7 +882,7 @@
             }
             
             // Show score and feedback
-            document.getElementById('score').textContent = `${currentScoreText}`;
+            //document.getElementById('score').textContent = `${currentScoreText}`;
             
             const feedbackText = currentScore === 100 ? feedback.perfect : feedback.partial;
             document.getElementById('feedback').textContent = feedbackText;
@@ -810,7 +899,7 @@
         }
         
         function loadSummary() {
-            const topicId = currentTopic.replace('topic_', '');
+            const topicId = window.currentTopic ? window.currentTopic.replace('topic_', '') : '3';
             const summary = window.getTopicSummary ? window.getTopicSummary(topicId) : '';
             const summaryDiv = document.getElementById('summary-content');
             summaryDiv.innerHTML = summary;
@@ -823,6 +912,9 @@
                 console.log(`Topic ${topicNumber} marked as completed after viewing summary`);
             }
         }
+        
+        // Make loadSummary available globally
+        window.loadSummary = loadSummary;
         
         function restartTopic() {
             selectedAnswers = [];
@@ -855,6 +947,7 @@
             selectedAnswers = [];
             currentScore = 0;
             currentTopic = '';
+            window.currentTopic = ''; // Also reset global variable
             selectedCampus = '';
             
             // Use state manager to return to campus selection state
@@ -887,7 +980,7 @@
             
             // Update button text immediately
             buttonElement.textContent = `${originalText} (${timeLeft}s)`;
-            buttonElement.disabled = true;
+            
             
             const timer = setInterval(() => {
                 timeLeft--;
@@ -939,6 +1032,7 @@
         // Make functions globally available
         window.countdownTimer = countdownTimer;
         window.setupAutoTrigger = setupAutoTrigger;
+        window.selectTopic = selectTopic;
 
         /*
          * Celebration Functions
@@ -981,6 +1075,108 @@
         
         // Make function globally available
         window.triggerCelebration = triggerCelebration;
+        
+        // Error handling - listen for error events
+        window.addEventListener('promptPageRefresh', function(event) {
+            console.log('Error event received:', event.detail);
+            
+            // Get the error section and message elements
+            const errorSection = document.querySelector('.error-section');
+            const errorMessage = document.querySelector('.error-message p');
+            
+            if (errorSection && errorMessage) {
+                // Update the error message with the event detail
+                if (event.detail && event.detail.message) {
+                    errorMessage.textContent = event.detail.message;
+                }
+                
+                // Hide all other sections
+                document.querySelectorAll('.section').forEach(section => {
+                    section.classList.add('hidden');
+                });
+                
+                // Show the error section
+                errorSection.classList.remove('hidden');
+                
+                console.log('Error section displayed with message:', event.detail.message);
+            } else {
+                console.error('Error section or message element not found');
+            }
+        });
+        
+        // Function to hide error and return to menu
+        function hideErrorAndReturnToMenu() {
+            const errorSection = document.querySelector('.error-section');
+            if (errorSection) {
+                errorSection.classList.add('hidden');
+            }
+            
+            // Return to menu state
+            if (window.stateManager) {
+                window.stateManager.changeState('menu');
+            }
+        }
+        
+        // Make function globally available
+        window.hideErrorAndReturnToMenu = hideErrorAndReturnToMenu;
+        
+        // Enhanced manual topic selection functions
+        function goToTopic(topicNumber) {
+            console.log(`🎯 Manually navigating to topic ${topicNumber}`);
+            
+            // Set the topic
+            const topicId = `topic_${topicNumber}`;
+            window.currentTopic = topicId;
+            currentTopic = topicId;
+            updateBodyTopicClass(topicId);
+            
+            // Go directly to animation (bypass menu)
+            if (window.stateManager) {
+                window.stateManager.changeState('animating');
+            }
+        }
+        
+        function restartCurrentTopic() {
+            console.log(`🔄 Restarting current topic: ${window.currentTopic}`);
+            
+            // Reset timeline if it exists
+            if (window.timelineController) {
+                window.timelineController.resetTimeline();
+            }
+            
+            // Go to animation state
+            if (window.stateManager) {
+                window.stateManager.changeState('animating');
+            }
+        }
+        
+        function goToVideo() {
+            console.log(`🎬 Going directly to video for topic: ${window.currentTopic}`);
+            if (window.stateManager) {
+                window.stateManager.changeState('video');
+            }
+        }
+        
+        function goToQuiz() {
+            console.log(`📝 Going directly to quiz for topic: ${window.currentTopic}`);
+            if (window.stateManager) {
+                window.stateManager.changeState('quiz');
+            }
+        }
+        
+        function goToSummary() {
+            console.log(`📊 Going directly to summary for topic: ${window.currentTopic}`);
+            if (window.stateManager) {
+                window.stateManager.changeState('summary');
+            }
+        }
+        
+        // Make functions globally available
+        window.goToTopic = goToTopic;
+        window.restartCurrentTopic = restartCurrentTopic;
+        window.goToVideo = goToVideo;
+        window.goToQuiz = goToQuiz;
+        window.goToSummary = goToSummary;
         
         /**
          * End of Main Application Script

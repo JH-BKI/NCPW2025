@@ -420,6 +420,7 @@ class MobileConsole {
 
     // Copy console output to clipboard
     copyConsoleToClipboard() {
+        this.detectDevice();
         
         console.log(`🔍 Enhanced Device Detection:`);
         console.log(`  User Agent Mobile: ${isMobileUA}`);

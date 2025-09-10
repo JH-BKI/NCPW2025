@@ -177,7 +177,7 @@ a {
 
 .card {
     background: rgba(0, 0, 0, 0.9);
-    background: linear-gradient(0deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.95) 50%, rgba(0, 0, 0, 0.9) 100%);
+    background: linear-gradient(0deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.95) 50%, rgba(0, 0, 0, 0.8) 100%);
     padding: var(--spacing-lg);
     border-radius: var(--radius-xxl) var(--radius-xxl) 0 0;
     box-shadow: var(--shadow-sm);
@@ -911,11 +911,14 @@ a {
     padding: 5px 10px;
     margin: 10px 0;
     border-radius: 8px;
-    background: rgb(132 105 161 / 85%);
+    background: rgb(117 88 149 / 95%);
     border: 1px solid rgba(92, 74, 112, 0.9);
     width: auto;
+    transition: none !important;
   }
   
+
+
   .scenario-ui-prompt-speech-profile {
     width: 50px;
     height: 50px;
@@ -954,7 +957,16 @@ a {
     font-weight: normal;
   }
   
+  .scenario-ui-prompt-speech.left {
+    transition: none !important;
+    display: none;
+    opacity: 0;
+}
+
   .scenario-ui-prompt-speech.right {
+    transition: none !important;
+    display: none;
+    opacity: 0;
     align-self: flex-end;
     flex-direction: row-reverse;
     background: rgb(127 189 66 / 85%);
@@ -1394,7 +1406,225 @@ a {
 }
 
 /* ==========================================================================
-   8. CELEBRATION SECTION STYLES
+   8. TOPIC-SPECIFIC BODY CLASSES
+   ========================================================================== */
+
+
+
+
+/* Topic 1 - Protecting Yourself Online */
+body.topic_1 {
+    --topic-primary-color: #4CAF50; /* Green */
+    --topic-secondary-color: #8BC34A;
+    --topic-accent-color: #2E7D32;
+    
+    /* Green-themed background with nature-inspired gradient */
+    background-image: url(../../assets/misc/background.png), 
+        radial-gradient(circle at 20% 80%, rgba(76, 175, 80, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(139, 195, 74, 0.15) 0%, transparent 50%),
+        linear-gradient(135deg, 
+            rgba(46, 125, 50, 0.8) 0%, 
+            rgba(76, 175, 80, 0.6) 25%, 
+            rgba(139, 195, 74, 0.4) 50%, 
+            rgba(165, 214, 167, 0.3) 75%, 
+            rgba(200, 230, 201, 0.2) 100%
+        );
+    background-attachment: fixed;
+}
+
+body.topic_1 .section {
+    border-left: 4px solid var(--topic-primary-color);
+    background: rgba(255, 255, 255, 0.05);
+
+}
+
+/* Topic 2 - Navigating Difficult Situations */
+body.topic_2 {
+    --topic-primary-color: #FF9800; /* Orange */
+    --topic-secondary-color: #FFB74D;
+    --topic-accent-color: #F57C00;
+    
+    /* Orange-themed background with warm, energetic gradient */
+    background-image: url(../../assets/misc/background.png), 
+        radial-gradient(circle at 30% 70%, rgba(255, 152, 0, 0.12) 0%, transparent 60%),
+        radial-gradient(circle at 70% 30%, rgba(255, 183, 77, 0.18) 0%, transparent 60%),
+        linear-gradient(45deg, 
+            rgba(245, 124, 0, 0.85) 0%, 
+            rgba(255, 152, 0, 0.7) 20%, 
+            rgba(255, 183, 77, 0.5) 40%, 
+            rgba(255, 193, 7, 0.4) 60%, 
+            rgba(255, 213, 79, 0.3) 80%, 
+            rgba(255, 235, 59, 0.2) 100%
+        );
+    background-attachment: fixed;
+}
+
+body.topic_2 .section {
+    border-left: 4px solid var(--topic-primary-color);
+    background: rgba(255, 255, 255, 0.08);
+
+}
+
+/* Topic 3 - Respectful Relationships Online */
+body.topic_3 {
+    --topic-primary-color: #9C27B0; /* Purple */
+    --topic-secondary-color: #BA68C8;
+    --topic-accent-color: #7B1FA2;
+    
+    /* Purple-themed background with elegant, sophisticated gradient */
+    background-image: url(../../assets/misc/background.png), 
+        radial-gradient(circle at 25% 75%, rgba(156, 39, 176, 0.15) 0%, transparent 55%),
+        radial-gradient(circle at 75% 25%, rgba(186, 104, 200, 0.2) 0%, transparent 55%),
+        linear-gradient(120deg, 
+            rgba(123, 31, 162, 0.9) 0%, 
+            rgba(156, 39, 176, 0.75) 20%, 
+            rgba(186, 104, 200, 0.6) 40%, 
+            rgba(197, 128, 210, 0.45) 60%, 
+            rgba(208, 152, 220, 0.35) 80%, 
+            rgba(225, 190, 231, 0.25) 100%
+        );
+    background-attachment: fixed;
+}
+
+body.topic_3 .section {
+    border-left: 4px solid var(--topic-primary-color);
+    background: rgba(255, 255, 255, 0.06);
+
+}
+
+/* Topic 4 - Seeking Help and Support */
+body.topic_4 {
+    --topic-primary-color: #2196F3; /* Blue */
+    --topic-secondary-color: #64B5F6;
+    --topic-accent-color: #1976D2;
+    
+    /* Blue-themed background with calming, supportive gradient */
+    background-image: url(../../assets/misc/background.png), 
+        radial-gradient(circle at 40% 60%, rgba(33, 150, 243, 0.12) 0%, transparent 65%),
+        radial-gradient(circle at 60% 40%, rgba(100, 181, 246, 0.18) 0%, transparent 65%),
+        linear-gradient(60deg, 
+            rgba(25, 118, 210, 0.85) 0%, 
+            rgba(33, 150, 243, 0.7) 25%, 
+            rgba(100, 181, 246, 0.55) 50%, 
+            rgba(129, 212, 250, 0.4) 75%, 
+            rgba(179, 229, 252, 0.3) 100%
+        );
+    background-attachment: fixed;
+}
+
+body.topic_4 .section {
+    border-left: 4px solid var(--topic-primary-color);
+    background: rgba(255, 255, 255, 0.07);
+    
+}
+/* 
+/* ==========================================================================
+   TOPIC-SPECIFIC ENHANCED STYLING
+   ========================================================================== */
+
+/* Topic 1 - Enhanced Green Styling */
+
+
+.topic-button {
+    width: 80%;
+    padding: 1rem;
+    /* margin: 1rem; */
+    margin: var(--spacing-lg) 10% 0 10%;
+    line-height: 2rem;
+    height: 125px;
+}
+
+.btn-primary.topic_1  {
+    background-image: linear-gradient(135deg, var(--topic-primary-color), var(--topic-secondary-color));
+    border: 2px solid var(--topic-accent-color);
+    box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+}
+
+.btn-primary.topic_1 :hover {
+    background-image: linear-gradient(135deg, var(--topic-accent-color), var(--topic-primary-color));
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+}
+
+/*Topic 2 - Enhanced Orange Styling */
+.btn-primary.topic_2  {
+    background-image: linear-gradient(135deg, var(--topic-primary-color), var(--topic-secondary-color));
+    border: 2px solid var(--topic-accent-color);
+    box-shadow: 0 4px 15px rgba(255, 152, 0, 0.3);
+}
+
+.btn-primary.topic_2 :hover {
+    background-image: linear-gradient(135deg, var(--topic-accent-color), var(--topic-primary-color));
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 152, 0, 0.4);
+}
+
+/* Topic 3 - Enhanced Purple Styling */
+.btn-primary.topic_3  {
+    background-image: linear-gradient(135deg, var(--topic-primary-color), var(--topic-secondary-color));
+    border: 2px solid var(--topic-accent-color);
+    box-shadow: 0 4px 15px rgba(156, 39, 176, 0.3);
+}
+
+.btn-primary.topic_3 :hover {
+    background-image: linear-gradient(135deg, var(--topic-accent-color), var(--topic-primary-color));
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(156, 39, 176, 0.4);
+}
+
+/* Topic 4 - Enhanced Blue Styling */
+.btn-primary.topic_4  {
+    background-image: linear-gradient(135deg, var(--topic-primary-color), var(--topic-secondary-color));
+    border: 2px solid var(--topic-accent-color);
+    box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
+}
+
+.btn-primary.topic_4 :hover {
+    background-image: linear-gradient(135deg, var(--topic-accent-color), var(--topic-primary-color));
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(33, 150, 243, 0.4);
+}
+
+/* Topic-specific progress bars *
+body.topic_1 .progress-bar {
+    background: linear-gradient(90deg, var(--topic-primary-color), var(--topic-secondary-color));
+}
+
+body.topic_2 .progress-bar {
+    background: linear-gradient(90deg, var(--topic-primary-color), var(--topic-secondary-color));
+}
+
+body.topic_3 .progress-bar {
+    background: linear-gradient(90deg, var(--topic-primary-color), var(--topic-secondary-color));
+}
+
+body.topic_4 .progress-bar {
+    background: linear-gradient(90deg, var(--topic-primary-color), var(--topic-secondary-color));
+}
+
+/* Topic-specific card styling *
+body.topic_1 .card {
+    border: 1px solid rgba(76, 175, 80, 0.3);
+    box-shadow: 0 4px 15px rgba(76, 175, 80, 0.1);
+}
+
+body.topic_2 .card {
+    border: 1px solid rgba(255, 152, 0, 0.3);
+    box-shadow: 0 4px 15px rgba(255, 152, 0, 0.1);
+}
+
+body.topic_3 .card {
+    border: 1px solid rgba(156, 39, 176, 0.3);
+    box-shadow: 0 4px 15px rgba(156, 39, 176, 0.1);
+}
+
+body.topic_4 .card {
+    border: 1px solid rgba(33, 150, 243, 0.3);
+    box-shadow: 0 4px 15px rgba(33, 150, 243, 0.1);
+} */
+
+/* ==========================================================================
+   9. CELEBRATION SECTION STYLES
    ========================================================================== */
 
 #celebration-section {
@@ -1724,6 +1954,61 @@ a {
     .splash-button {
         padding: 14px 28px;
         font-size: 1.1rem;
+    }
+}
+
+/* ==========================================================================
+   TOPIC BUTTONS STYLES
+   ========================================================================== */
+
+.topic-buttons {
+    margin-top: var(--spacing-lg);
+    padding: var(--spacing-md);
+    background: var(--bg-secondary);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-color);
+}
+
+.topic-buttons h3 {
+    margin: 0 0 var(--spacing-md) 0;
+    color: var(--text-primary);
+    font-size: 1.1rem;
+    text-align: center;
+}
+
+.topic-button-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-md);
+}
+
+.topic-button-grid button {
+    padding: var(--spacing-md);
+    font-size: 0.9rem;
+    min-height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.topic-button-grid button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Mobile responsiveness for topic buttons */
+@media (max-width: 768px) {
+    .topic-button-grid {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-sm);
+    }
+    
+    .topic-button-grid button {
+        padding: var(--spacing-sm);
+        font-size: 0.85rem;
+        min-height: 45px;
     }
 }
 

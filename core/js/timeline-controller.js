@@ -74,6 +74,7 @@ AFRAME.registerComponent('timeline-controller', {
       // Check if we already have this timeline loaded
       if (this.timelineLoaded && window.createTimeline) {
         console.log(`Timeline for topic ${topicId} already loaded`);
+        this.currentTopic = topicId; // Set the current topic
         resolve(true);
         return;
       }
@@ -85,6 +86,7 @@ AFRAME.registerComponent('timeline-controller', {
       script.onload = () => {
         console.log(`Successfully loaded timeline for topic ${topicId}`);
         this.timelineLoaded = true;
+        this.currentTopic = topicId; // Set the current topic
         resolve(true);
       };
       
@@ -183,8 +185,13 @@ AFRAME.registerComponent('timeline-controller', {
         console.log(`Timeline already running for topic ${this.currentTopic + 1} (0-based: ${this.currentTopic})`);
         return;
       } else if (this.timelineState === 'completed') {
-        console.log(`Timeline completed for topic ${this.currentTopic + 1} (0-based: ${this.currentTopic}) - doing nothing`);
-        return;
+        console.log(`Timeline completed for topic ${this.currentTopic + 1} (0-based: ${this.currentTopic}) - restarting animation`);
+        // Reset timeline state to allow restart
+        this.timelineState = 'ready';
+        this.timelineRunning = false;
+        this.timelineCreated = false;
+        this.timeline = null;
+        // Continue to create new timeline below
       }
     }
     

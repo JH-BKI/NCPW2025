@@ -102,6 +102,7 @@ class StateManager {
                     }
 
                     this.hideAllSections();
+                    this.scrollToTop();
 
                     // Show menu section
                     const menuSection = document.getElementById('menu-section');
@@ -122,6 +123,7 @@ class StateManager {
                 onEnter: () => {
                     console.log('Entering scanning state');
                     this.hideAllSections();
+                    this.scrollToTop();
                     // Show scanning section
                     const scanningSection = document.getElementById('scanning-section');
                     if (scanningSection) {
@@ -144,6 +146,7 @@ class StateManager {
                 onEnter: () => {
                     console.log('Entering AR ready state');
                     this.hideAllSections();
+                    this.scrollToTop();
                     // Show AR ready section
                     const arReadySection = document.getElementById('ar-ready-section');
                     if (arReadySection) {
@@ -170,19 +173,30 @@ class StateManager {
             },
             animating: {
                 onEnter: () => {
-
-            // // Start the animation timeline
-            // this.startAnimation(topicId);
-
                     console.log('Entering animating state');
                     this.hideAllSections();
+                    this.scrollToTop();
                     // Show animating section
                     const animatingSection = document.getElementById('animating-section');
                     if (animatingSection) {
                         animatingSection.classList.remove('hidden');
                     }
                     
-                    // AR scene already running from previous state
+                    // Start the animation for the current topic
+                    if (window.arSceneManager && window.currentTopic) {
+                        console.log(`🎬 Starting AR experience for ${window.currentTopic}`);
+                        
+                        // Ensure AR scene is injected before starting animation
+                        if (!document.querySelector('a-scene')) {
+                            console.log('🧹 AR Scene not found - injecting scene first');
+                            window.arSceneManager.injectARScene();
+                        }
+                        
+                        // Start the AR experience
+                        window.arSceneManager.startARExperience();
+                    } else {
+                        console.error('❌ AR Scene Manager or current topic not available');
+                    }
                 },
                 onExit: () => {
                     console.log('Exiting animating state');
@@ -196,7 +210,6 @@ class StateManager {
             video: {
                 onEnter: () => {
                     console.log('Entering video state');
-
                     // Stop AR camera when entering video state
                     if (window.arSceneManager) {
                         console.log('🛑 VIDEO STATE: Disabling camera');
@@ -209,6 +222,7 @@ class StateManager {
                     }
 
                     this.hideAllSections();
+                    this.scrollToTop();
                     // document.getElementById('progress').classList.remove('hidden');
                     const videoSection = document.getElementById('video-section');
                     if (videoSection) {
@@ -254,6 +268,7 @@ class StateManager {
                 onEnter: () => {
                     console.log('Entering quiz state');
                     this.hideAllSections();
+                    this.scrollToTop();
                     //document.getElementById('progress').classList.remove('hidden');
                     document.getElementById('quiz-section').classList.remove('hidden');
                     
@@ -267,6 +282,14 @@ class StateManager {
                         console.log('🛑 Stopping timeline when transitioning to quiz state');
                         window.timelineController.resetTimeline();
                     }
+                    
+                    // Load quiz questions
+                    if (typeof window.loadQuiz === 'function') {
+                        console.log('📝 Loading quiz questions');
+                        window.loadQuiz();
+                    } else {
+                        console.error('❌ loadQuiz function not available');
+                    }
                 },
                 onExit: () => {
                     console.log('Exiting quiz state');
@@ -277,6 +300,7 @@ class StateManager {
                 onEnter: () => {
                     console.log('Entering summary state');
                     this.hideAllSections();
+                    this.scrollToTop();
                     //document.getElementById('progress').classList.remove('hidden');
                     document.getElementById('summary-section').classList.remove('hidden');
                     
@@ -290,6 +314,14 @@ class StateManager {
                         console.log('🛑 Stopping timeline when transitioning to summary state');
                         window.timelineController.resetTimeline();
                     }
+                    
+                    // Load summary content
+                    if (typeof window.loadSummary === 'function') {
+                        console.log('📄 Loading summary content');
+                        window.loadSummary();
+                    } else {
+                        console.error('❌ loadSummary function not available');
+                    }
                 },
                 onExit: () => {
                     console.log('Exiting summary state');
@@ -299,6 +331,7 @@ class StateManager {
             face_filter_setup: {
                 onEnter: () => {
                     console.log('Entering face_filter state');
+                    this.scrollToTop();
                 },
                 onExit: () => {
                     console.log('Exiting face_filter state');
@@ -307,6 +340,7 @@ class StateManager {
             face_filter_scanning: {
                 onEnter: () => {
                     console.log('Entering face_filter state');
+                    this.scrollToTop();
                 },
                 onExit: () => {
                     console.log('Exiting face_filter state');
@@ -315,6 +349,7 @@ class StateManager {
             face_filter_ready: {
                 onEnter: () => {
                     console.log('Entering face_filter state');
+                    this.scrollToTop();
                 },
                 onExit: () => {
                     console.log('Exiting face_filter state');
@@ -323,6 +358,7 @@ class StateManager {
             face_filter_animating: {
                 onEnter: () => {
                     console.log('Entering face_filter state');
+                    this.scrollToTop();
                 },
                 onExit: () => {
                     console.log('Exiting face_filter state');
@@ -395,6 +431,13 @@ class StateManager {
             if (element) {
                 element.classList.add('hidden');
             }
+        });
+    }
+
+    // Scroll all sections to top
+    scrollToTop() {
+        document.querySelectorAll('.section').forEach(section => {
+            section.scrollTop = 0;
         });
     }
 

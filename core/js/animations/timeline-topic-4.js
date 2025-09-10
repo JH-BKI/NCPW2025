@@ -10,14 +10,14 @@ window.createTimeline = function(timelineController) {
   ///////////////////////////////////////////////////////////////////////////////////////////
   ///////////////////////////////////////////////////////////////////////////////////////////
   ///////////////////////////////////////////////////////////////////////////////////////////
-  // Scene 01: Fade In (Mia and Alex simultaneously)
+  // Scene 01: Fade In (Ella and Liam simultaneously)
   ///////////////////////////////////////////////////////////////////////////////////////////
   timeline
-  .add({
-    targets: '#scenario',
-    opacity: [1, 1],
-    duration: 10, // Instant change
-    easing: 'linear',
+    .add({
+      targets:  ['#s04-loading'],
+      opacity: [0, 0],
+      duration: 10, // Instant change
+      easing: 'linear',
     begin: () => {
       console.log(`Timeline Item ${itemNumber++}: First timeline node completed.`);
     },
@@ -26,114 +26,427 @@ window.createTimeline = function(timelineController) {
     }  
   })
   .add({
-    targets: '#scenario-assets-topic-group-4',
-    opacity: [0, 0],
-    duration: 10, // Instant change
-    easing: 'linear',
-    complete: () => {
-
-      document.getElementById('scenario-assets-topic-group-4').setAttribute('opacity', 0);
-      document.getElementById('scenario-assets-topic-group-4').setAttribute('visible', false);   
-
-      document.querySelector('.scenario-ui-prompt-button-area').style.display = "none";
-      document.querySelector('.scenario-ui-prompt-button-area').setAttribute('opacity', 0);
-      document.querySelector('.scenario-ui-prompt-speech.left').style.display = "none";
-      document.querySelector('.scenario-ui-prompt-speech.left').setAttribute('opacity', 0);
-      document.querySelector('.scenario-ui-prompt-speech.right').style.display = "none";
-      document.querySelector('.scenario-ui-prompt-speech.right').setAttribute('opacity', 0);
-
-
-      // document.getElementById('s03-speech-lt').setAttribute('opacity', 0);
-      // document.getElementById('s03-speech-rt').setAttribute('opacity', 0);
-      // document.getElementById('s03s01-Riley').setAttribute('opacity', 0);
-      // document.getElementById('s03s01-Sam').setAttribute('opacity', 0);
-      // document.getElementById('s03s02-Riley').setAttribute('opacity', 0);
-      // document.getElementById('s03s02-Sam').setAttribute('opacity', 0);
-      // document.getElementById('s03s03-Riley').setAttribute('opacity', 0);
-      // document.getElementById('s03s03-Sam').setAttribute('opacity', 0);
-      // document.getElementById('s03s04-Riley').setAttribute('opacity', 0);
-      // document.getElementById('s03s04-Sam').setAttribute('opacity', 0);
-      // document.getElementById('s03s05-Riley').setAttribute('opacity', 0);
-      // document.getElementById('s03s05-Sam').setAttribute('opacity', 0);
-      // document.getElementById('s03s06-Riley').setAttribute('opacity', 0);
-      // document.getElementById('s03s06-Sam').setAttribute('opacity', 0);
-      // document.getElementById('s03-desk').setAttribute('opacity', 0);
-      // document.getElementById('s03-printer').setAttribute('opacity', 0);
-      // document.getElementById('s03-plant').setAttribute('opacity', 0);
-
-      // document.getElementById('s03-divider').setAttribute('visible', false);    
-      // document.getElementById('s03-speech-lt').setAttribute('visible', false);
-      // document.getElementById('s03-speech-rt').setAttribute('visible', false);
-      // document.getElementById('s03s01-Riley').setAttribute('visible', false);
-      // document.getElementById('s03s01-Sam').setAttribute('visible', false);
-      // document.getElementById('s03s02-Riley').setAttribute('visible', false);
-      // document.getElementById('s03s02-Sam').setAttribute('visible', false);
-      // document.getElementById('s03s03-Riley').setAttribute('visible', false);
-      // document.getElementById('s03s03-Sam').setAttribute('visible', false);
-      // document.getElementById('s03s04-Riley').setAttribute('visible', false);
-      // document.getElementById('s03s04-Sam').setAttribute('visible', false);
-      // document.getElementById('s03s05-Riley').setAttribute('visible', false);
-      // document.getElementById('s03s05-Sam').setAttribute('visible', false);
-      // document.getElementById('s03s06-Riley').setAttribute('visible', false);
-      // document.getElementById('s03s06-Sam').setAttribute('visible', false);
-      // document.getElementById('s03-desk').setAttribute('visible', false);
-      // document.getElementById('s03-printer').setAttribute('visible', false);
-      // document.getElementById('s03-plant').setAttribute('visible', false);
-      // document.getElementById('s03-divider').setAttribute('visible', false);
-
-      document.getElementById('s04-background').setAttribute('opacity', 0);
-      document.getElementById('s04-background').setAttribute('visible', false);   
-
-      console.log(`Timeline Item ${itemNumber++}: Setting vis/opacity of assets.`);
-    },
-    error: (error) => {
-      console.error(`Timeline Item ${itemNumber} Error: Setting vis/opacity of assets failed -`, error);
-    }  
-  })
-
-  .add({
-    targets: '#scenario',
-    opacity: [1, 1],
-    duration: 10, // Instant change
+    targets: ['#s04-loading'],
+    opacity: [0, 1],
+    duration: 1000,
     easing: 'linear',
     begin: () => {
-
-      // document.getElementById('name-content-left').textContent = "Riley";
-      // document.getElementById('name-content-right').textContent = "Sam";
-      document.querySelector('#scenario .scenario-ui-prompt-speech.left img').setAttribute('src', getTopicLeftProfileImage(4));
-      document.querySelector('#scenario .scenario-ui-prompt-speech.right img').setAttribute('src', getTopicRightProfileImage(4));
-      
-
-      console.log(`Timeline Item ${itemNumber++}: Setting left/right profile pictures`);
-    },
-    error: (error) => {
-      console.error(`Timeline Item ${itemNumber} Error: Setting left/right profile pictures failed -`, error);
+      console.log(`Timeline Item ${itemNumber++}: Fading inElla and Liam (Scene 02)`);
+      document.getElementById('s04-loading').setAttribute('visible', true);      
     }
   })
-      .add({
-      targets: ['#s04-background'],
+  .add({
+  targets: '#scenario-assets-topic-group-4',
+  opacity: [0, 1],
+  duration: 10, // Instant change
+  easing: 'linear',
+  complete: () => {
+  
+  document.getElementById('scenario-assets-topic-group-4').setAttribute('opacity', 0);
+  document.getElementById('scenario-assets-topic-group-4').setAttribute('visible', false);   
+  
+  document.querySelector('.scenario-ui-prompt-button-area').style.display = "none";
+  document.querySelector('.scenario-ui-prompt-button-area').style.opacity = 0;
+  document.querySelector('.scenario-ui-prompt-speech.left').style.display = "none";
+  document.querySelector('.scenario-ui-prompt-speech.left').style.opacity = 0;
+  document.querySelector('.scenario-ui-prompt-speech.right').style.display = "none";
+  document.querySelector('.scenario-ui-prompt-speech.right').style.opacity = 0;
+  
+  
+  document.getElementById('s04-speech-lt').setAttribute('opacity', 0);
+  document.getElementById('s04-speech-rt').setAttribute('opacity', 0);
+  document.getElementById('s04s01-Ella').setAttribute('opacity', 0);
+  document.getElementById('s04s02-Ella').setAttribute('opacity', 0);
+  document.getElementById('s04s02-Liam').setAttribute('opacity', 0);
+  document.getElementById('s04s03-Ella').setAttribute('opacity', 0);
+  document.getElementById('s04s03-Liam').setAttribute('opacity', 0);
+  document.getElementById('s04s04-Ella').setAttribute('opacity', 0);
+  document.getElementById('s04s04-Liam').setAttribute('opacity', 0);
+  document.getElementById('s04s05-Ella').setAttribute('opacity', 0);
+  document.getElementById('s04s05-Liam').setAttribute('opacity', 0);
+  document.getElementById('s04s06-Ella').setAttribute('opacity', 0);
+  document.getElementById('s04s06-Liam').setAttribute('opacity', 0);
+  document.getElementById('s04s07-Ella').setAttribute('opacity', 0);
+  document.getElementById('s04s07-Liam').setAttribute('opacity', 0);
+  document.getElementById('s04-couch').setAttribute('opacity', 0);
+  document.getElementById('s04-speech-lt').setAttribute('visible', false);
+  document.getElementById('s04-speech-rt').setAttribute('visible', false);
+  document.getElementById('s04s01-Ella').setAttribute('visible', false);
+  document.getElementById('s04s02-Ella').setAttribute('visible', false);
+  document.getElementById('s04s02-Liam').setAttribute('visible', false);
+  document.getElementById('s04s03-Ella').setAttribute('visible', false);
+  document.getElementById('s04s03-Liam').setAttribute('visible', false);
+  document.getElementById('s04s04-Ella').setAttribute('visible', false);
+  document.getElementById('s04s04-Liam').setAttribute('visible', false);
+  document.getElementById('s04s05-Ella').setAttribute('visible', false);
+  document.getElementById('s04s05-Liam').setAttribute('visible', false);
+  document.getElementById('s04s06-Ella').setAttribute('visible', false);
+  document.getElementById('s04s06-Liam').setAttribute('visible', false);
+  document.getElementById('s04s07-Ella').setAttribute('visible', false);
+  document.getElementById('s04s07-Liam').setAttribute('visible', false);
+  document.getElementById('s04-couch').setAttribute('visible', false);
+  document.getElementById('s04-background').setAttribute('visible', false);    
+  
+  document.getElementById('s04-background').setAttribute('opacity', 0);
+  document.getElementById('s04-background').setAttribute('visible', false);   
+  
+  
+  console.log(`Timeline Item ${itemNumber++}: Setting vis/opacity of assets.`);
+  },
+  error: (error) => {
+  console.error(`Timeline Item ${itemNumber} Error: Setting vis/opacity of assets failed -`, error);
+  }  
+  })
+  
+  .add({
+  targets: '#s04-loading',
+  opacity: [1, 0],
+  duration: 1000, // Instant change
+  easing: 'linear',
+  begin: () => {
+  console.log(`Timeline Item ${itemNumber++}: Setting left/right profile pictures`);        
+  
+  document.getElementById('name-content-left').textContent = "Ella";
+  document.getElementById('name-content-right').textContent = "Liam";
+  document.querySelector('#scenario .scenario-ui-prompt-speech.left img').setAttribute('src', getTopicLeftProfileImage(4));
+  document.querySelector('#scenario .scenario-ui-prompt-speech.right img').setAttribute('src', getTopicRightProfileImage(4));
+  
+  
+  },
+  complete: () => {
+  document.getElementById('scenario-assets-topic-group-4').setAttribute('opacity', 1);
+  document.getElementById('scenario-assets-topic-group-4').setAttribute('visible', true);  
+  document.getElementById('s04-loading').setAttribute('visible', false);  
+  },
+  error: (error) => {
+  console.error(`Timeline Item ${itemNumber} Error: Setting left/right profile pictures failed -`, error);
+  }
+  })
+  .add({
+  targets: ['#s04-background'],
+  opacity: [0, 1],
+  duration: 1000,
+  easing: 'linear',
+  begin: () => {
+  console.log(`Timeline Item ${itemNumber++}: Fading inElla and Liam (Scene 02)`);
+  document.getElementById('s04-background').setAttribute('visible', true);  
+  }
+  })
+  
+    .add({
+      targets: ['#s04s01-Ella','#s04-couch'],
       opacity: [0, 1],
       duration: 1000,
       easing: 'linear',
       begin: () => {
-        console.log(`Timeline Item ${itemNumber++}: Fading in Ella and Liam (Scene 04)`);
-        document.getElementById('s04-background').setAttribute('visible', true);  
+        console.log(`Timeline Item ${itemNumber++}: Fading in Ella (Scene 01)`);
+        document.getElementById('s04s01-Ella').setAttribute('visible', true);
+        document.getElementById('s04-couch').setAttribute('visible', true);
+        document.getElementById('s04-speech-lt').setAttribute('opacity', 0);
+        document.getElementById('s04-speech-rt').setAttribute('opacity', 0);
+        document.querySelector('.scenario-ui-prompt-speech.left').style.opacity = 0;
+        document.querySelector('.scenario-ui-prompt-speech.left').style.display = "none";
+        document.querySelector('.scenario-ui-prompt-speech.right').style.opacity = 0;
+        document.querySelector('.scenario-ui-prompt-speech.right').style.display = "none";
+            
       }
-    })
+    },"-=1000")
+  
+  
+
   .add({
-    targets: ['#s04-loading'],
+  targets: ['#s04s01-Ella'],
+  opacity: [1, 0],
+  duration: 1000,
+  easing: 'linear',
+  begin: () => {
+  console.log(`Timeline Item ${itemNumber++}: Fading out Ella and Liam (Scene 01)`);
+  },
+  complete: () => {
+  document.getElementById('s04s01-Ella').setAttribute('visible', false);
+
+  }
+  })
+  
+  ///////////////////////////////////////////////////////////////////////////////////////////
+  // Scene 02: Fade In (Ella and Liam simultaneously)
+  /////////////////////////////////////////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////////////////////////////////////
+  
+  .add({
+  targets: ['#s04s02-Liam','#s04s02-Ella'],
+  opacity: [0, 1],
+  duration: 1000,
+  easing: 'linear',
+  begin: () => {
+  console.log(`Timeline Item ${itemNumber++}: Fading in Ella and Liam (Scene 02)`);
+    document.getElementById('s04s02-Liam').setAttribute('visible', true);
+    document.getElementById('s04s02-Ella').setAttribute('visible', true);
+  }
+  },"-=1000")
+  .add({
+  targets: ['#s04-speech-rt', '.scenario-ui-prompt-speech.right'],
+  opacity: [0, 1],
+  duration: 1000,
+  easing: 'linear',
+  begin: () => {
+  console.log(`Timeline Item ${itemNumber++}: Fading in right speech bubble and Ella's speech UI (Scene 02)`);
+  document.getElementById('text-content-right').textContent = "Hi Ella! How are you?";
+  document.getElementById('s04-speech-rt').setAttribute('visible', true);
+  document.querySelector('.scenario-ui-prompt-speech.right').style.display = "flex";
+  }
+  })
+
+  .add({
+  targets: ['#s04s02-Ella', '#s04s02-Liam','#s04-speech-rt', '.scenario-ui-prompt-speech.right'],
+  opacity: [1, 0],
+  duration: 1000,
+  easing: 'linear',     
+  delay:3000,             
+  begin: () => {
+  console.log(`Timeline Item ${itemNumber++}: Fading out button area and speech bubbles (Scene 02)`);
+  },
+  complete: () => {
+
+  document.querySelector('.scenario-ui-prompt-speech.right').style.display = "none";
+  document.getElementById('s04-speech-rt').setAttribute('visible', false);
+  document.getElementById('s04s02-Ella').setAttribute('visible', false);
+  document.getElementById('s04s02-Liam').setAttribute('visible', false);
+  }
+  })
+  
+  ///////////////////////////////////////////////////////////////////////////////////////////
+  // Scene 03: Fade In (Ella and Liam simultaneously)
+  /////////////////////////////////////////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////////////////////////////////////
+  
+  .add({
+  targets: ['#s04s03-Ella', '#s04s03-Liam'],
+  opacity: [0, 1],
+  duration: 1000,
+  easing: 'linear',
+  begin: () => {                
+  console.log(`Timeline Item ${itemNumber++}: Fading in Ella and Liam (Scene 03)`);
+  document.getElementById('s04s03-Ella').setAttribute('visible', true);
+  document.getElementById('s04s03-Liam').setAttribute('visible', true);
+  }           
+  },"-=1000")
+  .add({
+  targets: ['#s04-speech-rt', '.scenario-ui-prompt-speech.right'],
+  opacity: [0, 1],
+  duration: 1000,
+  easing: 'linear',
+  begin: () => {
+  console.log(`Timeline Item ${itemNumber++}: Fading in right speech bubble and Ella's speech UI (Scene 03)`);
+  document.getElementById('text-content-right').textContent = "Ella? Is everything ok?";
+  document.querySelector('.scenario-ui-prompt-speech.right').style.display = "flex";
+  document.getElementById('s04-speech-rt').setAttribute('visible', true);
+  }
+  })
+   
+  .add({
+  targets: ['#s04s03-Ella', '#s04s03-Liam','.scenario-ui-prompt-speech.right',
+      '#s04-speech-rt'],
+  opacity: [1, 0],
+  duration: 1000,
+  easing: 'linear',
+  delay:3000,                  
+  begin: () => {
+  console.log(`Timeline Item ${itemNumber++}: Fading out Ella and Liam (Scene 03)`);
+  },
+  complete: () => {
+  document.getElementById('s04s03-Ella').setAttribute('visible', false);
+  document.getElementById('s04s03-Liam').setAttribute('visible', false);
+  document.getElementById('s04-speech-rt').setAttribute('visible', false);
+  document.querySelector('.scenario-ui-prompt-speech.right').style.display = "none";
+  }
+  })    
+  ///////////////////////////////////////////////////////////////////////////////////////////
+  // Scene 04: 
+  /////////////////////////////////////////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////////////////////////////////////
+  .add({
+  targets: ['#s04s04-Ella', '#s04s04-Liam'],
+  opacity: [0, 1],
+  duration: 1000,
+  easing: 'linear',
+  begin: () => {
+  console.log(`Timeline Item ${itemNumber++}: Fading in Ella and Liam (Scene 04)`);
+  document.getElementById('s04s04-Ella').setAttribute('visible', true);
+  document.getElementById('s04s04-Liam').setAttribute('visible', true);
+  }
+  },"-=1000")
+  .add({
+  targets: ['#s04-speech-lt', '.scenario-ui-prompt-speech.left'],
+  opacity: [0, 1],
+  duration: 1000,
+  easing: 'linear',
+  begin: () => {
+  console.log(`Timeline Item ${itemNumber++}: Fading in left speech bubble and Ella's speech UI (Scene 03)`);
+  document.getElementById('text-content-left').textContent = "I saw something really upsetting online last night and now I can’t stop thinking about it.";
+  document.getElementById('s04-speech-lt').setAttribute('visible', true);
+  document.querySelector('.scenario-ui-prompt-speech.left').style.display = "flex";
+  }
+  })
+  
+  .add({
+    targets: ['#s04s04-Ella', '#s04s04-Liam','.scenario-ui-prompt-speech.left',
+        '#s04-speech-lt'],
     opacity: [1, 0],
     duration: 1000,
     easing: 'linear',
+    delay:3000,                  
     begin: () => {
-      console.log(`Timeline Item ${itemNumber++}: Fading in Ella and Liam (Scene 04)`);
-      document.getElementById('s04-loading').setAttribute('visible', false);      
+    console.log(`Timeline Item ${itemNumber++}: Fading out Ella and Liam (Scene 03)`);
     },
     complete: () => {
-      document.getElementById('scenario-assets-topic-group-4').setAttribute('opacity', 1);
-      document.getElementById('scenario-assets-topic-group-4').setAttribute('visible', true);  
+    document.getElementById('s04s04-Ella').setAttribute('visible', false);
+    document.getElementById('s04s04-Liam').setAttribute('visible', false);
+    document.getElementById('s04-speech-lt').setAttribute('visible', false);
+    document.querySelector('.scenario-ui-prompt-speech.left').style.display = "none";
     }
-  })
+    })  
+  ///////////////////////////////////////////////////////////////////////////////////////////
+  // Scene 05: 
+  /////////////////////////////////////////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////////////////////////////////////
+  
+  .add({
+    targets: ['#s04s05-Ella', '#s04s05-Liam'],
+    opacity: [0, 1],
+    duration: 1000,
+    easing: 'linear',
+    begin: () => {
+    console.log(`Timeline Item ${itemNumber++}: Fading in Ella and Liam (Scene 04)`);
+    document.getElementById('s04s04-Ella').setAttribute('visible', true);
+    document.getElementById('s04s04-Liam').setAttribute('visible', true);
+    }
+    },"-=1000")
+    .add({
+    targets: ['#s04-speech-rt', '.scenario-ui-prompt-speech.right'],
+    opacity: [0, 1],
+    duration: 1000,
+    easing: 'linear',
+    begin: () => {
+    console.log(`Timeline Item ${itemNumber++}: Fading in right speech bubble and Ella's speech UI (Scene 03)`);
+    document.getElementById('text-content-right').textContent = "That sounds really tough. Have you talked to anyone?";
+    document.getElementById('s04-speech-rt').setAttribute('visible', true);
+    document.querySelector('.scenario-ui-prompt-speech.right').style.display = "flex";
+    }
+    })
+    
+    .add({
+      targets: ['#s04s05-Ella', '#s04s05-Liam','.scenario-ui-prompt-speech.right',
+          '#s04-speech-rt'],
+      opacity: [1, 0],
+      duration: 1000,
+      easing: 'linear',
+      delay:3000,                  
+      begin: () => {
+      console.log(`Timeline Item ${itemNumber++}: Fading out Ella and Liam (Scene 03)`);
+      },
+      complete: () => {
+      document.getElementById('s04s05-Ella').setAttribute('visible', false);
+      document.getElementById('s04s05-Liam').setAttribute('visible', false);
+      document.getElementById('s04-speech-rt').setAttribute('visible', false);
+      document.querySelector('.scenario-ui-prompt-speech.right').style.display = "none";
+      }
+      })  
+
+
+
+
+      .add({
+        targets: ['#s04s06-Ella', '#s04s06-Liam'],
+        opacity: [0, 1],
+        duration: 1000,
+        easing: 'linear',
+        begin: () => {
+        console.log(`Timeline Item ${itemNumber++}: Fading in Ella and Liam (Scene 04)`);
+        document.getElementById('s04s06-Ella').setAttribute('visible', true);
+        document.getElementById('s04s06-Liam').setAttribute('visible', true);
+        }
+        },"-=1000")
+        .add({
+          targets: ['#s04-speech-lt', '.scenario-ui-prompt-speech.left'],
+        opacity: [0, 1],
+        duration: 1000,
+        easing: 'linear',
+        begin: () => {
+        console.log(`Timeline Item ${itemNumber++}: Fading in left speech bubble and Ella's speech UI (Scene 03)`);
+        document.getElementById('text-content-left').textContent = "No, I don’t want to bother anyone.";
+        document.getElementById('s04-speech-lt').setAttribute('visible', true);
+        document.querySelector('.scenario-ui-prompt-speech.left').style.display = "flex";
+        }
+        })
+        
+        .add({
+          targets: ['#s04s06-Ella', '#s04s06-Liam','.scenario-ui-prompt-speech.left',
+              '#s04-speech-lt'],
+          opacity: [1, 0],
+          duration: 1000,
+          easing: 'linear',
+          delay:3000,                  
+          begin: () => {
+          console.log(`Timeline Item ${itemNumber++}: Fading out Ella and Liam (Scene 03)`);
+          },
+          complete: () => {
+          document.getElementById('s04s06-Ella').setAttribute('visible', false);
+          document.getElementById('s04s06-Liam').setAttribute('visible', false);
+          document.getElementById('s04-speech-lt').setAttribute('visible', false);
+          document.querySelector('.scenario-ui-prompt-speech.left').style.display = "none";
+          }
+          })  
+          .add({
+            targets: ['#s04s07-Ella', '#s04s07-Liam'],
+            opacity: [0, 1],
+            duration: 1000,
+            easing: 'linear',
+            begin: () => {
+            console.log(`Timeline Item ${itemNumber++}: Fading in Ella and Liam (Scene 04)`);
+            document.getElementById('s04s07-Ella').setAttribute('visible', true);
+            document.getElementById('s04s07-Liam').setAttribute('visible', true);
+            }
+            },"-=1000")
+            .add({
+              targets: ['#s04-speech-rt', '.scenario-ui-prompt-speech.right'],
+            opacity: [0, 1],
+            duration: 1000,
+            easing: 'linear',
+            begin: () => {
+            console.log(`Timeline Item ${itemNumber++}: Fading in right speech bubble and Ella's speech UI (Scene 03)`);
+            document.getElementById('text-content-right').textContent = "You’re not bothering anyone. You should talk to a teacher or your parents. There’s also help on the eSafety site.";
+            document.getElementById('s04-speech-rt').setAttribute('visible', true);
+            document.querySelector('.scenario-ui-prompt-speech.right').style.display = "flex";
+            }
+            })
+            
+            .add({
+              targets: ['.scenario-ui-prompt-speech.right',
+                  '#s04-speech-rt'],
+              opacity: [1, 0],
+              duration: 1000,
+              easing: 'linear',
+              delay:3000,                  
+              begin: () => {
+              console.log(`Timeline Item ${itemNumber++}: Fading out Ella and Liam (Scene 03)`);
+              },
+              complete: () => {
+              document.getElementById('s04-speech-rt').setAttribute('visible', false);
+              document.querySelector('.scenario-ui-prompt-speech.right').style.display = "none";
+              }
+              })  
+
+
+
 
   ///////////////////////////////////////////////////////////////////////////////////////////
   // Scene 08: Fade In 
@@ -141,66 +454,67 @@ window.createTimeline = function(timelineController) {
   ///////////////////////////////////////////////////////////////////////////////////////////
   ///////////////////////////////////////////////////////////////////////////////////////////
   ///////////////////////////////////////////////////////////////////////////////////////////
-
-  timeline
-           
-    .add({
-      targets: '.scenario-ui-prompt-speech.info',
-      opacity: [0, 1],
-      duration: 1000, // Instant change
-      easing: 'linear',
-      delay: 5000,
-      begin: () => {
-        console.log(`Timeline Item ${itemNumber++}: Setting the general info (Scene 07)`);
-        const infoElement = document.querySelector('.scenario-ui-prompt-speech.info');
-        if (infoElement) {
-            infoElement.innerHTML = `<h4>Moving on...</h4><p><h1>Adding soon! Not available just yet.</h1></p>`;
-        } else {
-            console.warn('Element .scenario-ui-prompt-speech.info not found');
-        }
-        if (infoElement) {
-            infoElement.style.display = "block";
-        }
-      },
-      error: (error) => {
-        console.error(`Timeline Item ${itemNumber} Error: Topic 4 general info (Scene 07) failed -`, error);
-      }
-    })
-    .add({
-      targets: '.scenario-ui-prompt-button-area',
-      opacity: [0, 1],
-      duration: 500,
-      easing: 'linear',
-      begin: () => {
-        console.log(`Timeline Item ${itemNumber++}: Fading in continue button area (Scene 08)`);
-        document.querySelector('.scenario-ui-prompt-button-area').style.display = "flex";
-      },
-      error: (error) => {
-        console.error(`Timeline Item ${itemNumber} Error: Fading in continue button area (Scene 08) failed -`, error);
-      }
-    }) 
-    .add(addPause(0))
-    .add({
-      targets: ['.scenario-ui-prompt-button-area','.scenario-ui-prompt-speech.left','.scenario-ui-prompt-speech.info','#s04-background'],
-      opacity: [1, 0],
-      duration: 500,
-      easing: 'linear',
-      delay: 500,
-      begin: () => {
-        console.log(`Timeline Item ${itemNumber++}: Fading out button area and speech bubble (Scene 08)`);
-      },
-      complete: () => {
-        document.getElementById('s02-speech-lt').setAttribute('visible', false);
-        document.getElementById('s02-speech-rt').setAttribute('visible', false);
-        document.querySelector('.scenario-ui-prompt-speech.left').style.display = "none";
-        document.querySelector('.scenario-ui-prompt-speech.right').style.display = "none";
-        document.querySelector('.scenario-ui-prompt-speech.info').style.display = "none";
-        document.querySelector('.scenario-ui-prompt-button-area').style.display = "none";
-        document.getElementById('scenario-assets-topic-group-4').setAttribute('opacity', 0);
-        document.getElementById('scenario-assets-topic-group-4').setAttribute('visible', false);   
-
-        document.getElementById('s04-background').setAttribute('opacity', 0);
-        document.getElementById('s04-background').setAttribute('visible', false);   
-      }   
-    });
-}
+  
+  
+  
+  .add({
+  targets: '.scenario-ui-prompt-speech.info',
+  opacity: [0, 1],
+  duration: 1000, // Instant change
+  easing: 'linear',
+  begin: () => {
+  console.log(`Timeline Item ${itemNumber++}: Setting the general info (Scene 07)`);
+  const infoElement = document.querySelector('.scenario-ui-prompt-speech.info');
+  infoElement.innerHTML = `<h4>Moving on...</h4>
+  <p>How can you help and support your friends and family to protect themselves against harmful content?</p>
+  <ul><li>Encourage open conversations and emotional support.</li>
+ <li>Normalize asking for help.</li>
+ <li>Share resources like school counsellors and the eSafety Commissioner.</li></ul>
+  <p>Select the continue button below to move on.</p>`;
+  infoElement.style.display = "block";
+  },
+  error: (error) => {
+  console.error(`Timeline Item ${itemNumber} Error: Setting Mia's speech text about privacy and safety (Scene 07) failed -`, error);
+  }
+  })
+  .add({
+  targets: '.scenario-ui-prompt-button-area',
+  opacity: [0, 1],
+  duration: 1000,
+  easing: 'linear',
+  begin: () => {
+  console.log(`Timeline Item ${itemNumber++}: Fading in continue button area (Scene 08)`);
+  document.querySelector('.scenario-ui-prompt-button-area').style.display = "flex";
+  },
+  error: (error) => {
+  console.error(`Timeline Item ${itemNumber} Error: Fading in continue button area (Scene 08) failed -`, error);
+  }
+  }) 
+  .add(addPause(0))
+  .add({
+  targets: ['#s04s06-Ella', '#s04s06-Liam','.scenario-ui-prompt-speech.left','.scenario-ui-prompt-speech.right','.scenario-ui-prompt-speech.info',
+      '#s04-speech-lt','#s04-speech-rt','#s04-background'],
+  opacity: [1, 0],
+  duration: 1000,
+  easing: 'linear',                  
+  begin: () => {
+  console.log(`Timeline Item ${itemNumber++}: Fading out Ella and Liam (Scene 03)`);
+  },
+  complete: () => {
+  document.getElementById('s04s06-Ella').setAttribute('visible', false);
+  document.getElementById('s04s06-Liam').setAttribute('visible', false);
+  document.getElementById('s04-speech-lt').setAttribute('visible', false);
+  document.getElementById('s04-speech-rt').setAttribute('visible', false);
+  document.querySelector('.scenario-ui-prompt-speech.left').style.display = "none";
+  document.querySelector('.scenario-ui-prompt-speech.right').style.display = "none";
+  document.querySelector('.scenario-ui-prompt-speech.info').style.display = "none";
+  document.querySelector('.scenario-ui-prompt-button-area').style.display = "none";
+  document.getElementById('scenario-assets-topic-group-4').setAttribute('opacity', 0);
+  document.getElementById('scenario-assets-topic-group-4').setAttribute('visible', false);   
+  
+  document.getElementById('s04-background').setAttribute('opacity', 0);
+  document.getElementById('s04-background').setAttribute('visible', false);   
+  }   
+  })
+  }
+  

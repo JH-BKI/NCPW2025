@@ -12,11 +12,6 @@ class ARSceneManager {
         this.tipIndex = 0;
         this.isPaused = false; // Track pause state
         
-        // Performance optimization caches
-        this.elementCache = new Map(); // Cache DOM element references
-        this.assetPreloadCache = new Map(); // Cache preloaded images
-        this.animationBatchQueue = []; // Batch animation updates
-        
         // Multi-poster workflow state tracking
         this.lastDetectedTargetIndex = null; // Track last detected poster
         this.isTimelinePaused = false; // Track if timeline is paused (not stopped)
@@ -44,107 +39,6 @@ class ARSceneManager {
         ];
         
         console.log('AR Scene Manager initialized');
-    }
-    
-    /**
-     * Preload all AR assets for better performance
-     */
-    async preloadARAssets() {
-        console.log('🚀 Preloading AR assets for performance optimization...');
-        
-        const preloadPromises = [];
-        
-        // Preload all topic assets
-        for (let topicId = 1; topicId <= 4; topicId++) {
-            const assets = this.getTopicARAssets(topicId);
-            if (assets && assets.images) {
-                assets.images.forEach(asset => {
-                    if (!this.assetPreloadCache.has(asset.src)) {
-                        const promise = this.preloadImage(asset.src);
-                        this.assetPreloadCache.set(asset.src, promise);
-                        preloadPromises.push(promise);
-                    }
-                });
-            }
-        }
-        
-        try {
-            await Promise.all(preloadPromises);
-            console.log('✅ All AR assets preloaded successfully');
-        } catch (error) {
-            console.warn('⚠️ Some assets failed to preload:', error);
-        }
-    }
-    
-    /**
-     * Preload a single image
-     */
-    preloadImage(src) {
-        return new Promise((resolve, reject) => {
-            const img = new Image();
-            img.onload = () => resolve(img);
-            img.onerror = reject;
-            img.src = src;
-        });
-    }
-    
-    /**
-     * Get cached element reference or create new one
-     */
-    getCachedElement(id) {
-        if (!this.elementCache.has(id)) {
-            const element = document.getElementById(id);
-            if (element) {
-                this.elementCache.set(id, element);
-            }
-        }
-        return this.elementCache.get(id);
-    }
-    
-    /**
-     * Batch update multiple elements for better performance
-     */
-    batchUpdateElements(updates) {
-        // Use requestAnimationFrame to batch DOM updates
-        requestAnimationFrame(() => {
-            updates.forEach(update => {
-                const element = this.getCachedElement(update.id);
-                if (element) {
-                    if (update.opacity !== undefined) {
-                        element.setAttribute('opacity', update.opacity);
-                    }
-                    if (update.visible !== undefined) {
-                        element.setAttribute('visible', update.visible);
-                    }
-                    if (update.position !== undefined) {
-                        element.setAttribute('position', update.position);
-                    }
-                }
-            });
-        });
-    }
-    
-    /**
-     * Optimized element visibility toggle
-     */
-    setElementVisibility(id, visible, opacity = 1) {
-        const element = this.getCachedElement(id);
-        if (element) {
-            element.setAttribute('visible', visible);
-            if (visible) {
-                element.setAttribute('opacity', opacity);
-            }
-        }
-    }
-    
-    /**
-     * Get AR assets for a specific topic
-     */
-    getTopicARAssets(topicId) {
-        if (typeof window.getTopicARAssets === 'function') {
-            return window.getTopicARAssets(topicId);
-        }
-        return null;
     }
     
     async initialize() {
@@ -424,9 +318,8 @@ class ARSceneManager {
         if (sceneEl) {
             const timelineController = sceneEl.components['timeline-controller'];
             if (timelineController) {
-                const zeroBasedTopicId = topicId - 1; // Convert to 0-based index
-                console.log(`Timeline controller: Setting topic ${topicId} (0-based: ${zeroBasedTopicId})`);
-                timelineController.setTopic(zeroBasedTopicId);
+                console.log(`Timeline controller: Setting topic ${topicId} (0-based)`);
+                timelineController.setTopic(topicId);
             }
         }
     }
@@ -524,20 +417,94 @@ class ARSceneManager {
     
     // Start animation when user clicks "Start AR Experience"
     startARExperience() {
-        if (this.currentTopic) {
-            console.log(`🎬 Starting AR experience for topic ${this.currentTopic}`);
+        // Get topic from currentTopic (set by direct animation flow)
+        const topicId = window.currentTopic ? window.currentTopic.replace('topic_', '') : '3';
+        console.log(`🎬 Starting AR experience for topic ${topicId}`);
+        
+        // Set the current topic in AR Scene Manager (1-based topic number)
+        this.currentTopic = parseInt(topicId);
+        
+        // Switch to gyro camera for 2D mode (skip MindAR camera)
+        const gyroCam = document.querySelector("#gyroCam");
+        const mindarCam = document.querySelector("#mindarCam");
+        if (mindarCam) mindarCam.setAttribute("camera", "active", false);
+        if (gyroCam) {
+            gyroCam.setAttribute("camera", "active", true);
+            gyroCam.setAttribute('position', '0 0.05 1.2');
+            gyroCam.setAttribute('rotation', '0 0 0');
+            console.log('✅ Camera reset to straight position for 2D mode');
+        }
+
+        // Set the topic in timeline controller (convert to 0-based index)
+        this.setTimelineTopic(this.currentTopic - 1);
+        
+        // Add entities for the current topic
+        this.addEntitiesToTopic(this.currentTopic);
+        
+        // Wait for timeline to load, then start animation
+        console.log(`🆕 Loading timeline for topic ${this.currentTopic}, then starting animation`);
+        this.loadAndStartAnimation(this.currentTopic);
+    }
+    
+    // Load timeline and start animation
+    async loadAndStartAnimation(topicId) {
+        const sceneEl = document.querySelector('a-scene');
+        if (sceneEl) {
+            // Wait for timeline controller to be available
+            let timelineController = null;
+            let attempts = 0;
+            const maxAttempts = 50; // 5 seconds max wait
             
-            // Check if we should resume a paused timeline
-            if (this.isTimelinePaused && this.timelineWasRunning) {
-                console.log(`🔄 Resuming paused timeline for topic ${this.currentTopic}`);
-                this.resumeTimeline();
-                window.stateManager.changeState('animating');
-            } else {
-                console.log(`🆕 Starting fresh animation for topic ${this.currentTopic}`);
-                this.startAnimation(this.currentTopic);
+            while (!timelineController && attempts < maxAttempts) {
+                timelineController = sceneEl.components['timeline-controller'];
+                if (!timelineController) {
+                    await new Promise(resolve => setTimeout(resolve, 100));
+                    attempts++;
+                }
             }
-        } else {
-            console.error('❌ No topic detected - cannot start AR experience');
+            
+            if (timelineController) {
+                try {
+                    // Load the topic animation file
+                    await timelineController.loadTopicAnimation(topicId - 1); // Convert to 0-based
+                    console.log(`✅ Timeline loaded for topic ${topicId}`);
+                    
+                    // Wait for timeline to be ready with retry mechanism
+                    let retryCount = 0;
+                    const maxRetries = 10;
+                    const checkTimelineReady = () => {
+                        console.log(`🔍 Debug timeline readiness for topic ${topicId} (attempt ${retryCount + 1}):`);
+                        console.log(`  - currentTopic: ${timelineController.currentTopic}`);
+                        console.log(`  - timelineLoaded: ${timelineController.timelineLoaded}`);
+                        console.log(`  - window.createTimeline: ${typeof window.createTimeline}`);
+                        
+                        if (timelineController.isTimelineReady()) {
+                            console.log(`🎬 Starting animation for topic ${topicId}`);
+                            timelineController.startAnimeTimeline();
+                        } else if (retryCount < maxRetries) {
+                            retryCount++;
+                            console.log(`⏳ Timeline not ready yet, retrying in 200ms... (${retryCount}/${maxRetries})`);
+                            setTimeout(checkTimelineReady, 200);
+                        } else {
+                            console.error(`❌ Timeline still not ready for topic ${topicId} after ${maxRetries} attempts`);
+                        // Emit an event to prompt the user for a page refresh
+                        const refreshEvent = new CustomEvent('promptPageRefresh', {
+                            detail: {
+                                message: 'Something went wrong here sorry! Please refresh the page.'
+                            }
+                        });
+                        window.dispatchEvent(refreshEvent);
+                        }
+                    };
+                    
+                    // Start checking after a short delay
+                    setTimeout(checkTimelineReady, 100);
+                } catch (error) {
+                    console.error(`❌ Failed to load timeline for topic ${topicId}:`, error);
+                }
+            } else {
+                console.error('❌ Timeline controller not found after waiting');
+            }
         }
     }
     
@@ -545,10 +512,10 @@ class ARSceneManager {
     handleTargetLost(targetIndex) {
         console.log(`🎯 handleTargetLost called with targetIndex: ${targetIndex}`);
         
-        // Don't process target lost events when in video state or other non-AR states
+        // Don't process target lost events when in video state, animating state, or other non-AR states
         const currentState = window.stateManager ? window.stateManager.currentState : null;
-        if (['video', 'quiz', 'summary', 'menu'].includes(currentState)) {
-            console.log(`🚫 Ignoring target lost event in ${currentState} state`);
+        if (['video', 'quiz', 'summary', 'menu', 'animating'].includes(currentState)) {
+            console.log(`🚫 Ignoring target lost event in ${currentState} state (2D mode)`);
             return;
         }
         
@@ -702,10 +669,7 @@ class ARSceneManager {
         
         // Scene injection removed - scene stays alive
         
-        // Start MindAR camera after scene is created
-        setTimeout(() => {
-            this.startMindAR();
-        }, 200);
+        // MindAR camera will be started by enableCamera() callv
         
         // Reset timeline controller state after scene is created
         setTimeout(() => {
@@ -733,7 +697,48 @@ class ARSceneManager {
     stopScanning() {
         console.log('⏹️ AR Scene Manager: Stopping AR scanning');
         this.stopMindAR();
+
+        const sceneEl = document.querySelector("a-scene");
+        const ARsystem = sceneEl.systems["mindar-image-system"];
+        const gyroCam = document.querySelector("#gyroCam");
+        const mindarCam = document.querySelector("#mindarCam");
+
+    // Enable AR
+    // gyroCam.setAttribute("camera", "active", false);
+    // mindarCam.setAttribute("camera", "active", true);
+
+        // Reset camera to straight position for 2D mode
+
+
+    mindarCam.setAttribute("camera", "active", false);
+    gyroCam.setAttribute("camera", "active", true);
+
+
         // Scene disposal removed - keeping scene alive
+    }
+    
+    /**
+     * Stop only MindAR tracking but keep camera feed running
+     */
+    stopTrackingOnly() {
+        console.log('🛑 AR Scene Manager: Stopping MindAR tracking only (keeping camera)');
+        const sceneEl = document.querySelector('a-scene');
+        if (sceneEl) {
+            const mindarSystem = sceneEl.systems['mindar-image-system'];
+            if (mindarSystem) {
+                try {
+                    // Stop tracking but keep camera running
+                    mindarSystem.stop();
+                    console.log('✅ MindAR tracking stopped, camera still running');
+                } catch (error) {
+                    console.warn('⚠️ Error stopping MindAR tracking:', error);
+                }
+            } else {
+                console.warn('⚠️ MindAR system not found - cannot stop tracking');
+            }
+        }
+        
+
     }
     
     createSceneForTopic(topicId) {
@@ -794,16 +799,35 @@ class ARSceneManager {
     
     // Set global topic
     setGlobalTopic(topicId) {
+        const topicName = `topic_${topicId}`;
+        
         if (typeof setCurrentTopic === 'function') {
-            setCurrentTopic(`topic_${topicId}`);
+            setCurrentTopic(topicName);
         }
         
         if (typeof window !== 'undefined') {
-            window.currentTopic = `topic_${topicId}`;
+            window.currentTopic = topicName;
         }
+        
+        // Update body class
+        this.updateBodyTopicClass(topicName);
         
         this.currentTopic = topicId;
         console.log(`📚 Topic set globally: ${topicId} (topic_${topicId})`);
+    }
+    
+    // Update body class based on current topic
+    updateBodyTopicClass(topic) {
+        const body = document.body;
+        
+        // Remove all existing topic classes
+        body.classList.remove('topic_1', 'topic_2', 'topic_3', 'topic_4');
+        
+        // Add the current topic class
+        if (topic) {
+            body.classList.add(topic);
+            console.log(`🎨 Body class updated to: ${topic}`);
+        }
     }
     
     // Get current topic
@@ -905,27 +929,31 @@ class ARSceneManager {
     
     // Start MindAR camera and tracking
     startMindAR() {
-        // Clean up any lingering video elements before starting MindAR
+        // Check for existing video elements but don't clean them up unnecessarily
         const existingVideos = document.querySelectorAll('video');
         console.log(`📊 VIDEO COUNT: Found ${existingVideos.length} video elements before starting MindAR`);
-        if (existingVideos.length > 0) {
-            console.log(`🧹 AR Scene Manager: Cleaning up ${existingVideos.length} existing video elements before starting MindAR`);
-            existingVideos.forEach(video => {
-                video.srcObject = null;
-                video.pause();
-                video.remove();
-            });
+        // Only clean up if there are multiple video elements (duplicates)
+        if (existingVideos.length > 1) {
+            console.log(`🧹 AR Scene Manager: Cleaning up ${existingVideos.length - 1} duplicate video elements`);
+            // Keep the first one, remove the rest
+            for (let i = 1; i < existingVideos.length; i++) {
+                existingVideos[i].srcObject = null;
+                existingVideos[i].pause();
+                existingVideos[i].remove();
+            }
         }
         
         const sceneEl = document.querySelector('a-scene');
         if (sceneEl) {
             const mindarSystem = sceneEl.systems['mindar-image-system'];
             if (mindarSystem) {
-                // Check if MindAR is ready (no artificial delays)
-                if (mindarSystem.start && typeof mindarSystem.start === 'function') {
-                    try {
-                        console.log('📹 Starting MindAR camera and tracking');
-                        mindarSystem.start();
+                // Check if MindAR controller is ready
+                if (mindarSystem.controller) {
+                    // Check if controller is fully ready
+                    if (mindarSystem.controller.dummyRun !== undefined) {
+                        try {
+                            console.log('📹 Starting MindAR camera and tracking');
+                            mindarSystem.start();
                         
                         // Clean up any video elements MindAR might have created after starting
                         setTimeout(() => {
@@ -966,11 +994,27 @@ class ARSceneManager {
                             }
                         }, 1000);
                     }
+                    } else {
+                        // Controller exists but not fully ready, wait and retry
+                        console.log('⏳ MindAR controller not fully ready, waiting...');
+                        setTimeout(() => {
+                            if (mindarSystem.controller && mindarSystem.controller.dummyRun !== undefined) {
+                                try {
+                                    console.log('📹 Starting MindAR camera and tracking (delayed)');
+                                    mindarSystem.start();
+                                } catch (error) {
+                                    console.warn('⚠️ MindAR delayed start failed:', error.message);
+                                }
+                            } else {
+                                console.warn('⚠️ MindAR never became fully ready');
+                            }
+                        }, 200);
+                    }
                 } else {
-                    console.warn('⚠️ MindAR system not ready - start method not available');
-                    // Wait for MindAR to be ready, then try once
+                    console.warn('⚠️ MindAR not ready yet, wait for scene "loaded" event');
+                    // Wait for MindAR controller to be ready, then try once
                     setTimeout(() => {
-                        if (mindarSystem.start && typeof mindarSystem.start === 'function') {
+                        if (mindarSystem.controller) {
                             try {
                                 console.log('📹 Starting MindAR camera and tracking (delayed)');
                                 mindarSystem.start();
@@ -1007,16 +1051,17 @@ class ARSceneManager {
         const sceneEl = document.querySelector('a-scene');
         if (sceneEl) {
             const mindarSystem = sceneEl.systems['mindar-image-system'];
-            if (mindarSystem) {
+            if (mindarSystem && typeof mindarSystem.stop === 'function') {
                 console.log('📹 Stopping MindAR camera and tracking');
                 try {
                     mindarSystem.stop();
+                    console.log('✅ MindAR system stopped successfully');
                 } catch (error) {
                     console.warn('⚠️ Error stopping MindAR system:', error);
                     // Continue with cleanup even if MindAR stop fails
                 }
             } else {
-                console.warn('⚠️ MindAR system not found - cannot stop camera');
+                console.log('ℹ️ MindAR system already stopped or not available');
             }
         }
     }
@@ -1123,6 +1168,20 @@ class ARSceneManager {
                 container.classList.remove('hidden');
                 console.log('AR scene container shown');
             }
+            
+            // Ensure MindAR is running for reuse (without aggressive restart)
+            const mindarSystem = existingScene.systems['mindar-image-system'];
+            if (mindarSystem && mindarSystem.controller) {
+                console.log('🔄 AR Scene Manager: Ensuring MindAR is running for reuse');
+                // Only start if not already running
+                if (typeof mindarSystem.start === 'function' && !mindarSystem.isRunning) {
+                    mindarSystem.start();
+                    console.log('✅ MindAR camera started for reuse');
+                } else {
+                    console.log('ℹ️ MindAR already running for reuse');
+                }
+            }
+            
             return;
         }
         
@@ -1139,90 +1198,111 @@ class ARSceneManager {
         // Generate dynamic asset HTML for all topics (1-4)
         const assetHTML = this.generateAllTopicAssets();
         
+
+
+        // <!-- <a-scene id="AR-scene"  
+        // mindar-image="imageTargetSrc: ./assets/targets/targets_4_final.mind; 
+        // filterMinCF: 0.0001; 
+        // filterBeta: 0.001; 
+        // warmupTolerance: 1; 
+        // missTolerance: 1; 
+        // maxTrack: 4;
+        // autoStart: true;" 
+        // timeline-controller
+        // color-space="sRGB" 
+        // renderer="colorManagement: true, physicallyCorrectLights"
+        // xr-mode-ui="enabled: false" 
+        // loading-screen="enabled: false"
+        // device-orientation-permission-ui="enabled: false">  -->   
+
+
         const arSceneHTML = `   
         <a-scene id="AR-scene"  
-            mindar-image="imageTargetSrc: ./assets/targets/targets_4_final.mind; 
-            filterMinCF: 0.0001; 
-            filterBeta: 0.001; 
-            warmupTolerance: 1; 
-            missTolerance: 1; 
-            maxTrack: 4;
-            autoStart: true;" 
             timeline-controller
             color-space="sRGB" 
-            renderer="colorManagement: true, physicallyCorrectLights, antialias: true, powerPreference: high-performance"
+            renderer="colorManagement: true, physicallyCorrectLights"
             xr-mode-ui="enabled: false" 
             loading-screen="enabled: false"
-            device-orientation-permission-ui="enabled: false"
-            stats="false"
-            embedded="true">  
+            device-orientation-permission-ui="enabled: false">  
+
+         
 
             ${assetHTML}
 
             <div id="timelineContainer" style="display: none;"></div>
             
-            <!-- Topic containers - always present for MindAR detection -->
-                    <a-entity id="scenario-assets-topic-1" position="0 0 0" mindar-image-target="targetIndex: 0">
-                
-                        <a-entity id="s01-loading" position="0 0 0">    
-                            <a-image id="s01-loading-panel" src="./assets/topic_1/s01-image-marker.png" scale="1 1 1" position="0 0 0.25" rotation="0 0 0" 
-                                material="transparent: true; alphaTest: 0.5; blending: normal" geometry=""></a-image>   
-                        </a-entity>
-                
-                    <!-- Topic 1 entities will be added dynamically -->
-                        <a-entity id="scenario-assets-topic-group-1" position="0 -0.25 0"></a-entity>
+            <!-- Topic containers - for direct animation mode -->
+            <!-- <a-entity id="scenario-assets-topic-1" position="0 0 0" mindar-image-target="targetIndex: 0"> -->
+            <a-entity id="scenario-assets-topic-1" position="0 0 0">
 
-                    </a-entity>
+                <a-entity id="s01-loading" position="0 0 0" visible="false">   
+                    <a-image id="s01-loading-panel" src="./assets/topic_1/s01-image-marker.png" scale="1 1 1" position="0 0 0" rotation="0 0 0" 
+                        material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal" geometry=""></a-image>   
+                </a-entity>
+
+                <!-- Topic 1 entities will be added dynamically -->
+                <a-entity id="scenario-assets-topic-group-1" position="0 0 0"></a-entity>
+
+            </a-entity>
 
 
-            <a-entity id="scenario-assets-topic-2" position="0 0 0" mindar-image-target="targetIndex: 1">
+            <!-- <a-entity id="scenario-assets-topic-2" position="0 0 0" mindar-image-target="targetIndex: 1"> -->
+            <a-entity id="scenario-assets-topic-2" position="0 0 0">
 
-                <a-image id="s02-loading" src="./assets/topic_2/s02-image-marker.png" scale="1 1 1" position="0 0 0" rotation="0 0 0" 
-                    material="transparent: true; alphaTest: 0.5; blending: normal" geometry=""></a-image>   
+                <a-entity id="s02-loading" position="0 0 0" visible="false">    
+                    <a-image id="s02-loading-panel" src="./assets/topic_2/s02-image-marker.png" scale="1 1 1" position="0 0 0" rotation="0 0 0" 
+                        material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal" geometry=""></a-image>   
+                </a-entity>
 
                 <!-- Topic 2 entities will be added dynamically -->
                 <a-entity id="scenario-assets-topic-group-2" position="0 0 0"></a-entity>
 
-
             </a-entity>
-            <a-entity id="scenario-assets-topic-3" position="0 0 0" mindar-image-target="targetIndex: 2">
 
-                <a-image id="s03-loading" src="./assets/topic_3/s03-image-marker.png" scale="1 1 1" position="0 0 0" rotation="0 0 0" 
-                    material="transparent: true; alphaTest: 0.5; blending: normal" geometry=""></a-image>   
+            <!-- <a-entity id="scenario-assets-topic-3" position="0 0 0" mindar-image-target="targetIndex: 2"> -->
+            <a-entity id="scenario-assets-topic-3" position="0 0 0">
+
+                <a-entity id="s03-loading" position="0 0 0" visible="false">    
+                    <a-image id="s03-loading-panel" src="./assets/topic_3/s03-image-marker.png" scale="1 1 1" position="0 0 0" rotation="0 0 0" 
+                        material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal" geometry=""></a-image>   
+                </a-entity>
 
                 <!-- Topic 3 entities will be added dynamically -->
                 <a-entity id="scenario-assets-topic-group-3" position="0 0 0"></a-entity>
 
             </a-entity>
-            <a-entity id="scenario-assets-topic-4" position="0 0 0" mindar-image-target="targetIndex: 3">
 
-                <a-image id="s04-loading" src="./assets/topic_4/s04-image-marker.png" scale="1 1 1" position="0 0 0" rotation="0 0 0" 
-                    material="transparent: true; alphaTest: 0.5; blending: normal" geometry=""></a-image>   
+            <!-- <a-entity id="scenario-assets-topic-4" position="0 0 0" mindar-image-target="targetIndex: 3"> -->
+            <a-entity id="scenario-assets-topic-4" position="0 0 0">
+
+                <a-entity id="s04-loading" position="0 0 0" visible="false">   
+                    <a-image id="s04-loading-panel" src="./assets/topic_4/s04-image-marker.png" scale="1 1 1" position="0 0 0" rotation="0 0 0" 
+                        material="transparent: true; alphaTest: 0.5; depthWrite: true; blending: normal" geometry=""></a-image>   
+                </a-entity>
 
                 <!-- Topic 4 entities will be added dynamically -->
-                <a-entity id="scenario-assets-topic-group-4" position="0 0 0"></a-entity>
+                <a-entity id="scenario-assets-topic-group-4" position="0 0 0.40"></a-entity>
 
             </a-entity>
 
-            <a-camera position="0 0 2" look-controls="enabled: false" cursor="rayOrigin: mouse" raycaster="objects: [data-raycastable]"></a-camera>
-        </a-scene>`;
+
+            <a-entity id="gyroCam" camera look-controls position="0 0 2" rotation="0 0 0" cursor="rayOrigin: mouse" raycaster="objects: [data-raycastable]"></a-entity>
+            <!-- <a-camera id="mindarCam" position="0 0 0" look-controls="enabled: false" cursor="rayOrigin: mouse" raycaster="objects: [data-raycastable]"></a-camera> -->
+        
+            </a-scene>`;
+        
 
         // Inject into the dedicated container instead of body
         if (container) {
             container.innerHTML = arSceneHTML;
             console.log('AR Scene has been injected into dedicated container');
-            
-            // Start preloading assets in background
-            this.preloadARAssets().catch(error => {
-                console.warn('Asset preloading failed:', error);
-            });
         } else {
             document.body.insertAdjacentHTML('beforeend', arSceneHTML);
             console.log('AR Scene has been injected into body (fallback)');
         }
 
-        // Set up MindAR event listeners after scene is injected
-        this.setupMindARListeners();
+        // Set up MindAR event listeners after scene is injected - DISABLED for direct animation mode
+        // this.setupMindARListeners();
 
         const sceneEl = document.querySelector('a-scene');
     }
@@ -1258,10 +1338,4 @@ class ARSceneManager {
 
 // Create global instance
 window.arSceneManager = new ARSceneManager();
-
-// Expose performance helpers globally
-window.batchUpdateElements = window.arSceneManager.batchUpdateElements.bind(window.arSceneManager);
-window.setElementVisibility = window.arSceneManager.setElementVisibility.bind(window.arSceneManager);
-window.getCachedElement = window.arSceneManager.getCachedElement.bind(window.arSceneManager);
-
-console.log('AR Scene Manager loaded with performance optimizations');
+console.log('AR Scene Manager loaded');
