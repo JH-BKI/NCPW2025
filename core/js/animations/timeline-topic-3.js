@@ -472,9 +472,8 @@ easing: 'linear',
 begin: () => {
 console.log(`Timeline Item ${itemNumber++}: Setting the general info (Scene 07)`);
 const infoElement = document.querySelector('.scenario-ui-prompt-speech.info');
-infoElement.innerHTML = `<h4>Moving on...</h4>
-                          <p>Now you have seen the conversation between Riley and Sam, let's find out more about having respectful relationships.</p>
-                          <p>Select the continue button below to move on.</p>`;
+infoElement.innerHTML = `<p>Now you have seen the conversation between Riley and Sam, let's find out more about having respectful relationships.</p>
+                         <p>Let's continue on.</p>`;
 infoElement.style.display = "block";
 },
 error: (error) => {

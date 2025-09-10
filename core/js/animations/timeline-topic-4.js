@@ -465,12 +465,12 @@ window.createTimeline = function(timelineController) {
   begin: () => {
   console.log(`Timeline Item ${itemNumber++}: Setting the general info (Scene 07)`);
   const infoElement = document.querySelector('.scenario-ui-prompt-speech.info');
-  infoElement.innerHTML = `<h4>Moving on...</h4>
+  infoElement.innerHTML = `
   <p>How can you help and support your friends and family to protect themselves against harmful content?</p>
   <ul><li>Encourage open conversations and emotional support.</li>
  <li>Normalize asking for help.</li>
  <li>Share resources like school counsellors and the eSafety Commissioner.</li></ul>
-  <p>Select the continue button below to move on.</p>`;
+  <p>Let's continue on.</p>`;
   infoElement.style.display = "block";
   },
   error: (error) => {

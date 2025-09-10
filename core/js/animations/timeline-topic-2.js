@@ -458,9 +458,8 @@ window.createTimeline = function(timelineController) {
   begin: () => {
   console.log(`Timeline Item ${itemNumber++}: Setting the general info (Scene 07)`);
   const infoElement = document.querySelector('.scenario-ui-prompt-speech.info');
-  infoElement.innerHTML = `<h4>Moving on...</h4>
-                            <p>If you experience a situation like Jordan's, it's best to get that fake account taken down and check that it has been done.</p>
-                            <p>Select the continue button below to move on.</p>`;
+  infoElement.innerHTML = `<p>If you experience a situation like Jordan's, it's best to get that fake account taken down and check that it has been done.</p>
+                            <p>Let's continue on.</p>`;
   infoElement.style.display = "block";
   },
   error: (error) => {
